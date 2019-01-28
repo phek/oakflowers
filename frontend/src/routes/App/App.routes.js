@@ -1,4 +1,4 @@
-import Home from "../Home/Home.component";
+import Home from "routes/Home/Home.component";
 
 export const appRoutes = [
   {
