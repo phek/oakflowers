@@ -1,0 +1,10 @@
+@function z-index($key) {
+  $z-index: (
+    modal: 1000,
+    nav: 900,
+    footer: 500,
+    dropdown: 10,
+    above: 1
+  );
+  @return map-get($z-index, $key);
+}

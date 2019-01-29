@@ -1,14 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import App from "routes/App/App.component";
+import { Provider } from "react-redux";
+import configureStore from "./reduxStore";
+import { AUTHENTICATED } from "./routes/state/Auth.actions";
+import App from "routes/App.component";
 import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
 
+const store = configureStore();
+const user = localStorage.getItem("user");
+
+if (user) {
+  store.dispatch({ type: AUTHENTICATED });
+}
+
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
 
