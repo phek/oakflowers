@@ -1,15 +1,22 @@
 {
   "name": "oakflowers",
+  "license": "ISC",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "frontend": "cd frontend && yarn start",
     "backend": "cd backend && yarn start",
+    "build-fe": "cd frontend && yarn build",
+    "prod-start": "cross-env NODE_ENV=production yarn backend",
+    "prod": "yarn build-fe && yarn prod-start",
     "dev": "concurrently --kill-others-on-fail \"yarn backend\" \"yarn frontend\""
   },
   "author": "Philip Ekblom",
   "devDependencies": {
     "concurrently": "^4.1.0"
+  },
+  "dependencies": {
+    "cross-env": "^5.2.0"
   }
 }
