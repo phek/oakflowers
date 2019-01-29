@@ -1,5 +1,6 @@
 import React from "react";
+import styles from "./Home.module.scss";
 
-const Home = () => <div>It works!</div>;
+const Home = () => <div className={styles.imgWrapper} />;
 
 export default Home;
