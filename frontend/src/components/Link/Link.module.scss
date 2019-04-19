@@ -1,0 +1,8 @@
+@import "styles/colors.scss";
+
+.link {
+  &:hover {
+    color: $primary;
+    cursor: pointer;
+  }
+}

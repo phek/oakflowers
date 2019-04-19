@@ -1,28 +1,34 @@
+/* App Routes */
 import Home from "routes/Home/Home.component";
 import Vindo from "routes/Vindo/Vindo.component";
 import Nerja from "routes/Nerja/Nerja.component";
 import AloeVera from "routes/AloeVera/AloeVera.component";
 
+/* Vindo Routes */
+import Tennis from "routes/Vindo/Tennis/Tennis.component";
+
 export const appRoutes = {
   home: {
     exact: true,
     path: "/",
-    component: Home,
-    routes: []
+    component: Home
   },
   vindo: {
     path: "/vindo",
     component: Vindo,
-    routes: []
+    routes: {
+      tennis: {
+        path: "/tennis",
+        component: Tennis
+      }
+    }
   },
   nerja: {
     path: "/nerja",
-    component: Nerja,
-    routes: []
+    component: Nerja
   },
   aloeVera: {
     path: "/aloe-vera",
-    component: AloeVera,
-    routes: []
+    component: AloeVera
   }
 };

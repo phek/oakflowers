@@ -1,0 +1,75 @@
+@import "styles/colors.scss";
+
+.text {
+  font-size: inherit;
+  font-weight: inherit;
+  max-width: 700px;
+
+  &.normal {
+    font-weight: 400;
+  }
+
+  &.bold {
+    font-weight: 700;
+  }
+
+  &.cursive {
+    font-style: italic;
+  }
+
+  &.uppercase {
+    text-transform: uppercase;
+  }
+
+  &.nowrap {
+    white-space: nowrap;
+  }
+
+  &.tight {
+    line-height: 0.8;
+  }
+
+  &.xs {
+    font-size: 12px;
+  }
+
+  &.s {
+    font-size: 14px;
+  }
+
+  &.m {
+    font-size: 16px;
+  }
+
+  &.l {
+    font-size: 20px;
+  }
+
+  &.text-primary {
+    color: $text-primary;
+  }
+
+  &.text-secondary {
+    color: $text-secondary;
+  }
+
+  &.disabled {
+    color: $text-disabled;
+  }
+
+  &.white {
+    color: $white;
+  }
+
+  &.primary {
+    color: $primary;
+  }
+
+  &.positive {
+    color: $positive;
+  }
+
+  &.negative {
+    color: $negative;
+  }
+}

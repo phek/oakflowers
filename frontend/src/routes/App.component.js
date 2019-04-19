@@ -1,14 +1,11 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import Navbar from "components/Navbar/Navbar.component";
-import { appRoutes } from "./App.routes";
+import { appRoutes } from "./_router/App.routes";
 
 const App = () => (
   <>
-    <Navbar />
-    {Object.keys(appRoutes).forEach(key => {
+    {Object.keys(appRoutes).map(key => {
       const route = appRoutes[key];
-
       return (
         <Route
           exact={route.exact}

@@ -7,7 +7,7 @@ export const AUTHENTICATION_ERROR = "authentication_error";
 export function login({ email, password }, history) {
   return async dispatch => {
     try {
-      const res = await axios.post(`api/login`, { email, password });
+      const res = await axios.post(`/api/login`, { email, password });
 
       dispatch({ type: AUTHENTICATED });
       localStorage.setItem("user", res.token);

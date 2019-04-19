@@ -1,5 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Noto+Serif+SC|Rochester");
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700,900");
 @import "styles/colors.scss";
+
+$font: "Lato", sans-serif;
 
 html,
 body,
@@ -107,10 +109,10 @@ body {
   margin: 0;
   padding: 0;
   color: $text-primary;
-  font-family: "Noto Serif SC", sans-serif;
+  font-family: $font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1;
+  line-height: 1.5;
 }
 ol,
 ul {
@@ -137,11 +139,14 @@ a:visited {
 }
 
 button {
+  outline: none;
+  font-family: $font;
   padding: 0;
   background: initial;
   border: none;
   font-size: initial;
   color: initial;
+  cursor: pointer;
 }
 
 table {
