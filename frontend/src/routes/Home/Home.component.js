@@ -1,25 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
-import { signIn, signOut } from "../state/Auth.actions";
 import styles from "./Home.module.scss";
+import Container from "components/Container/Container.component";
+import Content from "components/Content/Content.component";
 
-const Home = props => {
-  const login = () => {
-    props.signIn("Test", "Test-pw");
-  };
-  const logout = () => {
-    props.signOut();
-  };
-
+const Home = ({ authenticated }) => {
   return (
     <div className={styles.imgWrapper}>
-      <div className={styles.box}>
-        <h1>Test heading</h1>
-        <p>Test description to the heading</p>
-        <button onClick={login}>Login</button>
-        <button onClick={logout}>Logout</button>
-        <div>{props.authenticated.toString()}</div>
-      </div>
+      <Content>
+        <Container>
+          <div className={styles.box}>
+            <h1>Test heading</h1>
+            <p>Test description to the heading</p>
+            <div>{authenticated ? "Inloggad" : "Ej inloggad"}</div>
+          </div>
+        </Container>
+      </Content>
     </div>
   );
 };
@@ -28,7 +24,4 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated
 });
 
-export default connect(
-  mapStateToProps,
-  { signIn, signOut }
-)(Home);
+export default connect(mapStateToProps)(Home);

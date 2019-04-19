@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import configureStore from "./reduxStore";
-import { AUTHENTICATED } from "./routes/state/Auth.actions";
+import { AUTHENTICATED } from "./routes/_state/auth/Auth.actions";
 import App from "routes/App.component";
 import * as serviceWorker from "./serviceWorker";
 import "./index.scss";

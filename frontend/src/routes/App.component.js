@@ -6,13 +6,18 @@ import { appRoutes } from "./App.routes";
 const App = () => (
   <>
     <Navbar />
-    {appRoutes.map((route, i) => (
-      <Route
-        key={i}
-        path={route.path}
-        render={props => <route.component {...props} routes={route.routes} />}
-      />
-    ))}
+    {Object.keys(appRoutes).forEach(key => {
+      const route = appRoutes[key];
+
+      return (
+        <Route
+          exact={route.exact}
+          key={key}
+          path={route.path}
+          render={props => <route.component {...props} routes={route.routes} />}
+        />
+      );
+    })}
   </>
 );
 
