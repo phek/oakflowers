@@ -1,5 +1,12 @@
+@import "styles/colors.scss";
+
 .container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 40px 16px;
+  padding: 40px;
+}
+
+.withBg {
+  background: $white;
+  border: 1px solid $grey;
 }
