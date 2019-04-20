@@ -173,6 +173,10 @@ const Calendar = ({ height }) => {
     <>
       <BigCalendar
         localizer={localizer}
+        formats={{
+          timeGutterFormat: (date, culture, localizer) =>
+            localizer.format(date, "HH:mm", culture)
+        }}
         events={events}
         defaultDate={new Date()}
         defaultView="month"
@@ -185,6 +189,7 @@ const Calendar = ({ height }) => {
       {selectedStartDate && (
         <Popup closeFunction={addEvent}>
           <input value={selectedTitle} onChange={onTitleChange} />
+          <br />
           <DateInput
             value={selectedStartDate}
             onDayChange={date => onDateChange({ startDate: date })}
@@ -193,6 +198,7 @@ const Calendar = ({ height }) => {
             value={selectedStartTime}
             onChange={time => onDateChange({ startTime: time })}
           />
+          <br />
           <DateInput
             value={selectedEndDate}
             onDayChange={date => onDateChange({ endDate: date })}
@@ -201,8 +207,6 @@ const Calendar = ({ height }) => {
             value={selectedEndTime}
             onChange={time => onDateChange({ endTime: time })}
           />
-          {moment(selectedStartDate).format("D-MMMM")}
-          {moment(selectedEndDate).format("D-MMMM")}
         </Popup>
       )}
     </>
