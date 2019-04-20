@@ -7,6 +7,12 @@ import DateInput from "components/DateInput";
 import TimeInput from "components/TimeInput";
 import "./Calendar.module.scss";
 
+moment.locale("sv", {
+  week: {
+    dow: 1
+  }
+});
+
 const localizer = BigCalendar.momentLocalizer(moment);
 
 const defaultEvents = [
@@ -175,7 +181,13 @@ const Calendar = ({ height }) => {
         localizer={localizer}
         formats={{
           timeGutterFormat: (date, culture, localizer) =>
-            localizer.format(date, "HH:mm", culture)
+            localizer.format(date, "HH:mm", culture),
+          selectRangeFormat: ({ start, end }, culture, localizer) =>
+            `${localizer.format(start, "HH:mm", culture)} - ${localizer.format(
+              end,
+              "HH:mm",
+              culture
+            )}`
         }}
         events={events}
         defaultDate={new Date()}
