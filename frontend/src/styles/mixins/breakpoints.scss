@@ -1,0 +1,21 @@
+@import '../exports/breakpoints/breakpoints';
+
+@mixin breakpoint($min: 'n/a', $max: 'n/a') {
+  $min-breakpoint: map-get($_breakpoints, $min);
+  $max-breakpoint: map-get($_breakpoints, $max);
+  $query: 'all' !default;
+
+  @if $min-breakpoint != null and $max-breakpoint != null {
+    $query: '(min-width: #{$min-breakpoint}) and (max-width: #{$max-breakpoint - 1})';
+  } @else if ($min-breakpoint != null) {
+    $query: '(min-width: #{$min-breakpoint})';
+  } @else if ($max-breakpoint != null) {
+    $query: '(max-width: #{$max-breakpoint - 1})';
+  } @else {
+    @warn "No supported breakpoints supplied to mixin; $min: `#{$min}` & $max: `#{$max}`";
+  }
+
+  @media #{$query} {
+    @content;
+  }
+}

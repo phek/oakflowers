@@ -15,11 +15,11 @@ const Home = ({ authenticated }) => {
         <Content>
           <Container>
             <div className={styles.box}>
-              <Heading level={1}>Test heading</Heading>
+              <Heading level={1}>Hemsida under konstruktion</Heading>
               <Text color="text-secondary">
-                Test description to the heading
+                Sidan är under uppbyggnad och därmed kan du mötas av bland annat
+                toma sidor och oklar funktionalitet.
               </Text>
-              <div>{authenticated ? "Inloggad" : "Ej inloggad"}</div>
             </div>
           </Container>
         </Content>

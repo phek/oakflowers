@@ -16,7 +16,6 @@ const Tennis = ({ authenticated }) => {
         <br />
         <br />
         <Calendar />
-        <div>{authenticated ? "Inloggad" : "Ej inloggad"}</div>
       </Container>
     </>
   );

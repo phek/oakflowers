@@ -1,0 +1,116 @@
+@import 'breakpoints.scss';
+@import '../exports/typography/heading-size';
+@import '../exports/typography/text-size';
+@import '../functions/typography.scss';
+
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+@function calc-line-height($line-height, $font-size) {
+  @return (strip-unit($line-height) / strip-unit($font-size));
+}
+
+@function get-text-size($size) {
+  @return map-get($_text-sizes, $size);
+}
+
+@function get-heading-size($size) {
+  @return map-get($_heading-sizes, $size);
+}
+
+@mixin text-style($size) {
+  @if ($size == xs) {
+    font-size: text-size(xs);
+    line-height: calc-line-height(20, get-text-size(xs));
+  }
+
+  @if ($size == s) {
+    font-size: text-size(xs);
+    line-height: calc-line-height(20, get-text-size(xs));
+
+    @include breakpoint(m) {
+      font-size: text-size(s);
+      line-height: calc-line-height(20, get-text-size(s));
+    }
+  }
+
+  @if ($size == m) {
+    font-size: text-size(s);
+    line-height: calc-line-height(20, get-text-size(s));
+
+    @include breakpoint(m) {
+      font-size: text-size(m);
+      line-height: calc-line-height(24, get-text-size(m));
+    }
+  }
+
+  @if ($size == l) {
+    font-size: text-size(m);
+    line-height: calc-line-height(24, get-text-size(m));
+
+    @include breakpoint(m) {
+      font-size: text-size(l);
+      line-height: calc-line-height(32, get-text-size(l));
+    }
+  }
+}
+
+@mixin heading-style($size) {
+  font-weight: font-weight(bold);
+
+  @if ($size == xs) {
+    font-size: heading-size(xxs);
+    line-height: calc-line-height(20, get-heading-size(xxs));
+
+    @include breakpoint(m) {
+      font-size: heading-size(xs);
+      line-height: calc-line-height(20, get-heading-size(xs));
+    }
+  }
+
+  @if ($size == s) {
+    font-size: heading-size(xs);
+    line-height: calc-line-height(20, get-heading-size(xs));
+
+    @include breakpoint(m) {
+      font-size: heading-size(s);
+      line-height: calc-line-height(24, get-heading-size(s));
+    }
+  }
+
+  @if ($size == m) {
+    font-size: heading-size(s);
+    line-height: calc-line-height(24, get-heading-size(s));
+
+    @include breakpoint(m) {
+      font-size: heading-size(m);
+      line-height: calc-line-height(28, get-heading-size(m));
+    }
+  }
+
+  @if ($size == l) {
+    font-size: heading-size(l);
+    line-height: calc-line-height(32, get-heading-size(l));
+
+    @include breakpoint(m) {
+      font-size: heading-size(xl);
+      line-height: calc-line-height(36, get-heading-size(xl));
+    }
+  }
+
+  @if ($size == xl) {
+    font-weight: font-weight(heavy);
+    font-size: heading-size(xl);
+    line-height: calc-line-height(36, get-heading-size(xl));
+
+    @include breakpoint(m) {
+      font-size: heading-size(xxl);
+      line-height: calc-line-height(44, get-heading-size(xxl));
+    }
+  }
+}

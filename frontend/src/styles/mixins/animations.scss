@@ -1,0 +1,66 @@
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    pointer-events: none;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@mixin animate($speed) {
+  animation-duration: $speed;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+@mixin animation($type, $speed: 200ms) {
+  @include animate($speed);
+  animation-name: $type;
+}
+
+@mixin transition($properties...) {
+  $transitions: null;
+  @each $property in $properties {
+    $transitions: append(
+      $transitions,
+      unquote('#{$property} 200ms ease'),
+      'comma'
+    );
+  }
+  transition: $transitions;
+}

@@ -7,6 +7,10 @@ import logo from "images/logo.png";
 import styles from "./Navbar.module.scss";
 
 const Navbar = ({ authenticated, login, logout, children }) => {
+  const loginUser = () => {
+    login({ email: "test", password: "test" });
+  };
+
   return (
     <nav className={styles.navBar}>
       <div className={styles.mainNav}>
@@ -30,7 +34,7 @@ const Navbar = ({ authenticated, login, logout, children }) => {
               <span className={styles.menuItem}>Logout</span>
             </Link>
           ) : (
-            <Link as="button" className={styles.menuItem} onClick={login}>
+            <Link as="button" className={styles.menuItem} onClick={loginUser}>
               <span className={styles.menuItem}>Login</span>
             </Link>
           )}

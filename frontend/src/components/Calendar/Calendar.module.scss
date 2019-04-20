@@ -62,7 +62,7 @@
     color: #999999;
   }
   .rbc-off-range-bg {
-    background: $grey-light;
+    background: color(grey-light);
   }
   .rbc-header {
     overflow: hidden;
@@ -77,14 +77,14 @@
     font-weight: bold;
     font-size: 90%;
     min-height: 0;
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid color(grey);
   }
   .rbc-header + .rbc-header {
-    border-left: 1px solid $grey;
+    border-left: 1px solid color(grey);
   }
   .rbc-rtl .rbc-header + .rbc-header {
     border-left-width: 0;
-    border-right: 1px solid $grey;
+    border-right: 1px solid color(grey);
   }
   .rbc-header > a,
   .rbc-header > a:active,
@@ -109,12 +109,12 @@
         width: 100%;
         height: 100%;
         position: absolute;
-        border: $primary 1px solid !important;
+        border: color(primary) 1px solid !important;
       }
     }
   }
   .rbc-today {
-    background: lighten($primary, 42%);
+    background: lighten(color(primary), 42%);
   }
   .rbc-toolbar {
     display: -webkit-flex;
@@ -146,7 +146,7 @@
     vertical-align: middle;
     background: none;
     background-image: none;
-    border: 1px solid $grey;
+    border: 1px solid color(grey);
     padding: 0.375rem 1rem;
     border-radius: 4px;
     line-height: normal;
@@ -156,9 +156,9 @@
   }
   .rbc-toolbar button.rbc-active {
     background-image: none;
-    color: $white;
-    background-color: $secondary;
-    border-color: $grey;
+    color: color(white);
+    background-color: color(secondary);
+    border-color: color(grey);
   }
   .rbc-btn-group {
     display: inline-block;
@@ -198,7 +198,7 @@
   }
   .rbc-event {
     padding: 2px 5px;
-    background-color: $secondary;
+    background-color: color(secondary);
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
@@ -208,10 +208,10 @@
     pointer-events: none;
   }
   .rbc-event.rbc-selected {
-    background-color: darken($secondary, 10%);
+    background-color: darken(color(secondary), 10%);
   }
   .rbc-event:focus {
-    outline: 5px auto lighten($secondary, 10%);
+    outline: 5px auto lighten(color(secondary), 10%);
   }
   .rbc-event-label {
     font-size: 80%;
@@ -260,7 +260,7 @@
   }
   .rbc-month-view {
     position: relative;
-    border: 1px solid $grey;
+    border: 1px solid color(grey);
     border-radius: 4px;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -306,7 +306,7 @@
     cursor: pointer;
   }
   .rbc-month-row + .rbc-month-row {
-    border-top: 1px solid $grey;
+    border-top: 1px solid color(grey);
   }
   .rbc-date-cell {
     -webkit-flex: 1 1 0;
@@ -343,17 +343,17 @@
     flex: 1 0 0%;
   }
   .rbc-day-bg + .rbc-day-bg {
-    border-left: 1px solid $grey;
+    border-left: 1px solid color(grey);
   }
   .rbc-rtl .rbc-day-bg + .rbc-day-bg {
     border-left-width: 0;
-    border-right: 1px solid $grey;
+    border-right: 1px solid color(grey);
   }
   .rbc-overlay {
     position: absolute;
     z-index: 5;
-    border: 1px solid $grey;
-    background-color: #fff;
+    border: 1px solid color(grey);
+    background-color: color(white);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     padding: 10px;
   }
@@ -361,7 +361,7 @@
     margin-top: 1px;
   }
   .rbc-overlay-header {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid color(grey-light);
     margin: -10px -10px 5px -10px;
     padding: 2px 10px;
   }
@@ -379,7 +379,7 @@
   }
   .rbc-agenda-view table.rbc-agenda-table {
     width: 100%;
-    border: 1px solid $grey;
+    border: 1px solid color(grey);
     border-spacing: 0;
     border-collapse: collapse;
   }
@@ -393,19 +393,19 @@
     text-transform: lowercase;
   }
   .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td {
-    border-left: 1px solid $grey;
+    border-left: 1px solid color(grey);
   }
   .rbc-rtl .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td {
     border-left-width: 0;
-    border-right: 1px solid $grey;
+    border-right: 1px solid color(grey);
   }
   .rbc-agenda-view table.rbc-agenda-table tbody > tr + tr {
-    border-top: 1px solid $grey;
+    border-top: 1px solid color(grey);
   }
   .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
     padding: 3px 5px;
     text-align: left;
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid color(grey);
   }
   .rbc-rtl .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
     text-align: right;
@@ -442,7 +442,7 @@
   }
   .rbc-timeslot-group {
     font-size: 12px;
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid color(grey);
     min-height: 40px;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -512,15 +512,15 @@
     min-height: 1em;
   }
   .rbc-day-slot .rbc-time-slot {
-    border-top: 1px solid $grey;
+    border-top: 1px solid color(grey);
   }
   .rbc-time-view-resources .rbc-time-gutter,
   .rbc-time-view-resources .rbc-time-header-gutter {
     position: -webkit-sticky;
     position: sticky;
     left: 0;
-    background-color: white;
-    border-right: 1px solid $grey;
+    background-color: color(white);
+    border-right: 1px solid color(grey);
     z-index: 10;
     margin-right: -1px;
   }
@@ -570,7 +570,7 @@
     z-index: 10;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    color: color(white);
     font-size: 75%;
     width: 100%;
     padding: 3px;
@@ -589,7 +589,7 @@
     -ms-flex: 1;
     flex: 1;
     width: 100%;
-    border: 1px solid $grey;
+    border: 1px solid color(grey);
     min-height: 0;
   }
   .rbc-time-view .rbc-time-gutter {
@@ -602,7 +602,7 @@
     position: relative;
   }
   .rbc-time-view .rbc-allday-cell + .rbc-allday-cell {
-    border-left: 1px solid $grey;
+    border-left: 1px solid color(grey);
   }
   .rbc-time-view .rbc-allday-events {
     position: relative;
@@ -624,17 +624,17 @@
     flex-direction: row;
   }
   .rbc-time-header.rbc-overflowing {
-    border-right: 1px solid $grey;
+    border-right: 1px solid color(grey);
   }
   .rbc-rtl .rbc-time-header.rbc-overflowing {
     border-right-width: 0;
-    border-left: 1px solid $grey;
+    border-left: 1px solid color(grey);
   }
   .rbc-time-header > .rbc-row:first-child {
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid color(grey);
   }
   .rbc-time-header > .rbc-row.rbc-row-resource {
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid color(grey);
   }
   .rbc-time-header-cell-single-day {
     display: none;
@@ -650,14 +650,14 @@
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
-    border-left: 1px solid $grey;
+    border-left: 1px solid color(grey);
   }
   .rbc-rtl .rbc-time-header-content {
     border-left-width: 0;
-    border-right: 1px solid $grey;
+    border-right: 1px solid color(grey);
   }
   .rbc-time-header-content > .rbc-row.rbc-row-resource {
-    border-bottom: 1px solid $grey;
+    border-bottom: 1px solid color(grey);
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
@@ -673,7 +673,7 @@
     -ms-flex-align: start;
     align-items: flex-start;
     width: 100%;
-    border-top: 2px solid $grey;
+    border-top: 2px solid color(grey);
     overflow-y: auto;
     position: relative;
   }
@@ -683,11 +683,11 @@
     flex: none;
   }
   .rbc-time-content > * + * > * {
-    border-left: 1px solid $grey;
+    border-left: 1px solid color(grey);
   }
   .rbc-rtl .rbc-time-content > * + * > * {
     border-left-width: 0;
-    border-right: 1px solid $grey;
+    border-right: 1px solid color(grey);
   }
   .rbc-time-content > .rbc-day-slot {
     width: 100%;

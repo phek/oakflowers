@@ -14,6 +14,8 @@ const Vindo = ({ routes }) => {
       <Navbar>
         <Navbar.SubNav>
           <Link to={rootRoute + routes.tennis.path}>Tennis</Link>
+          <Link to={rootRoute + routes.bastu.path}>Bastu</Link>
+          <Link to={rootRoute + routes.stuga.path}>Stuga</Link>
         </Navbar.SubNav>
       </Navbar>
       <Content hasSubNav>

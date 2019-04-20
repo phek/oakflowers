@@ -2,7 +2,7 @@
 
 .link {
   &:hover {
-    color: $primary;
+    color: color(primary);
     cursor: pointer;
   }
 }

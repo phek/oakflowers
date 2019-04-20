@@ -1,5 +1,6 @@
 @import "styles/colors.scss";
 @import "styles/z-index.scss";
+@import "styles/mixins/box-shadow.scss";
 
 $padding: 16px;
 $width: 400px;
@@ -7,7 +8,7 @@ $width: 400px;
 .dialog {
   position: fixed;
   z-index: z-index(modal);
-  background: $white;
+  background: color(white);
   width: 400px;
   min-height: 200px;
   top: 50%;
@@ -15,12 +16,14 @@ $width: 400px;
   left: 50%;
   margin-left: -($width + $padding) / 2;
   padding: 16px;
+  border-radius: 4px;
+  @include box-shadow(s);
 }
 
 .backdrop {
   position: fixed;
   z-index: z-index(modal);
-  background: $blackdrop;
+  background: color(blackdrop);
   top: 0;
   left: 0;
   right: 0;

@@ -3,13 +3,11 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 const port = process.env.PORT || 5000;
+const api = require("./api");
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// API calls
-app.post("/api/login", (req, res) => {
-  res.send({ token: req.body.email });
-});
+app.use('/api', api);
 
 if (process.env.NODE_ENV === "production") {
   // Serve any static files

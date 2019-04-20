@@ -20,6 +20,14 @@ export const appRoutes = {
       tennis: {
         path: "/tennis",
         component: Tennis
+      },
+      bastu: {
+        path: "/bastu",
+        component: Tennis
+      },
+      stuga: {
+        path: "/stuga",
+        component: Tennis
       }
     }
   },

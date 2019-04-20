@@ -46,30 +46,30 @@
   }
 
   &.text-primary {
-    color: $text-primary;
+    color: color(text-primary);
   }
 
   &.text-secondary {
-    color: $text-secondary;
+    color: color(text-secondary);
   }
 
   &.disabled {
-    color: $text-disabled;
+    color: color(text-disabled);
   }
 
   &.white {
-    color: $white;
+    color: color(white);
   }
 
   &.primary {
-    color: $primary;
+    color: color(primary);
   }
 
   &.positive {
-    color: $positive;
+    color: color(positive);
   }
 
   &.negative {
-    color: $negative;
+    color: color(negative);
   }
 }

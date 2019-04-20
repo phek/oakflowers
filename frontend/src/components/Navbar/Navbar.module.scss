@@ -13,13 +13,14 @@
 
 .mainNav {
   display: flex;
-  border-bottom: 1px solid $grey;
+  border-bottom: 1px solid color(grey);
   height: 40px;
   padding: 16px 24px;
 }
 
 .logo {
   height: 100%;
+  margin-left: 16px;
 }
 
 .rightNav {

@@ -38,9 +38,9 @@
 }
 
 .color {
-  color: $text-primary;
+  color: color(text-primary);
 
   &.text-secondary {
-    color: $text-secondary;
+    color: color(text-secondary);
   }
 }

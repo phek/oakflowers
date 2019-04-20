@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import moment from "moment";
 import BigCalendar from "react-big-calendar";
+import { getEvents, setEvent } from "routes/_state/event/Event.actions";
 import Popup from "components/Popup";
 import DateInput from "components/DateInput";
 import TimeInput from "components/TimeInput";
+import Button from "components/Button";
 import "./Calendar.module.scss";
 
 moment.locale("sv", {
@@ -15,17 +18,20 @@ moment.locale("sv", {
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
-const defaultEvents = [
-  {
-    id: "test",
-    start: new Date(),
-    end: new Date(moment().add(1, "days")),
-    title: "Some title"
-  }
-];
+const Calendar = ({
+  height,
+  getEvents,
+  setEvent,
+  events,
+  token,
+  authenticated
+}) => {
+  useEffect(() => {
+    if (authenticated) {
+      getEvents(token);
+    }
+  }, [authenticated]);
 
-const Calendar = ({ height }) => {
-  const [events, setEvents] = useState(defaultEvents);
   const [selectedTitle, setSelectedTitle] = useState(""); // String
   const [selectedStartDate, setSelectedStartDate] = useState(); // Date
   const [selectedStartTime, setSelectedStartTime] = useState(); // Time String
@@ -60,9 +66,10 @@ const Calendar = ({ height }) => {
       start: start,
       end: end
     };
-
-    setEvents(events.concat(newEvent));
-    selectDate();
+    if (authenticated) {
+      setEvent(newEvent, token);
+    }
+    unSelectDate();
   };
 
   const getClosestInterval = () => {
@@ -97,13 +104,15 @@ const Calendar = ({ height }) => {
       setSelectedEndDate(newDate.endDate);
       setSelectedStartTime(newDate.startTime);
       setSelectedEndTime(newDate.endTime);
-    } else {
-      setSelectedTitle(undefined);
-      setSelectedStartDate(undefined);
-      setSelectedEndDate(undefined);
-      setSelectedStartTime(undefined);
-      setSelectedEndTime(undefined);
     }
+  };
+
+  const unSelectDate = () => {
+    setSelectedTitle("");
+    setSelectedStartDate(undefined);
+    setSelectedEndDate(undefined);
+    setSelectedStartTime(undefined);
+    setSelectedEndTime(undefined);
   };
 
   const getValidDate = (
@@ -199,7 +208,7 @@ const Calendar = ({ height }) => {
         style={{ height: height }}
       />
       {selectedStartDate && (
-        <Popup closeFunction={addEvent}>
+        <Popup closeFunction={unSelectDate}>
           <input value={selectedTitle} onChange={onTitleChange} />
           <br />
           <DateInput
@@ -219,6 +228,11 @@ const Calendar = ({ height }) => {
             value={selectedEndTime}
             onChange={time => onDateChange({ endTime: time })}
           />
+          <br />
+          <br />
+          <Button color='black-light' size="s" onClick={addEvent}>
+            Boka
+          </Button>
         </Popup>
       )}
     </>
@@ -241,4 +255,13 @@ Calendar.propTypes = {
   height: PropTypes.string
 };
 
-export default Calendar;
+const mapStateToProps = state => ({
+  authenticated: state.auth.authenticated,
+  token: state.auth.token,
+  events: state.events.events
+});
+
+export default connect(
+  mapStateToProps,
+  { getEvents, setEvent }
+)(Calendar);

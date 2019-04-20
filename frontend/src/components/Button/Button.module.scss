@@ -1,0 +1,168 @@
+@import "styles/mixins/animations.scss";
+@import "styles/colors.scss";
+
+@mixin borderButton($colorName) {
+  $color: color($colorName);
+  $activeColor: darken($color, 5%);
+  $focusColor: color(white);
+
+  border-color: $color;
+  background: $focusColor center;
+  color: $color;
+
+  &:hover,
+  &:focus {
+    border-color: $color;
+    background: $color radial-gradient(circle, transparent 1%, $activeColor 1%)
+      center/15000%;
+    color: $focusColor;
+  }
+
+  &:active {
+    border-color: $activeColor;
+    color: $focusColor;
+    background-size: 100%;
+    transition: background 0s;
+  }
+}
+
+@mixin filledButton($colorName) {
+  $color: color($colorName);
+  $activeColor: darken($color, 5%);
+  $focusColor: color(white);
+
+  border-color: $color;
+  background: $color center;
+  color: color(white);
+
+  &:hover,
+  &:focus {
+    border-color: $activeColor;
+    background: $activeColor
+      radial-gradient(circle, transparent 1%, $color 1%) center/15000%;
+    color: $focusColor;
+  }
+
+  &:active {
+    border-color: $color;
+    background-size: 100%;
+    transition: background 0s;
+  }
+}
+
+@mixin ghostButton($color) {
+  border-color: transparent;
+  background: transparent;
+  color: color($color);
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+.border {
+  &.primary {
+    @include borderButton(primary);
+  }
+  &.secondary {
+    @include borderButton(secondary);
+  }
+  &.black-light {
+    @include borderButton(black-light);
+  }
+}
+
+.filled {
+  &.primary {
+    @include filledButton(primary);
+  }
+  &.secondary {
+    @include filledButton(secondary);
+  }
+  &.black-light {
+    @include filledButton(black-light);
+  }
+}
+
+.ghost {
+  &.primary {
+    @include ghostButton(primary);
+  }
+
+  &.secondary {
+    @include ghostButton(secondary);
+  }
+}
+
+.button {
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 20px;
+  height: 44px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  @include transition(border-color, background, color);
+
+  .label {
+    line-height: 1;
+  }
+
+  &.fullWidth {
+    display: flex;
+    width: 100%;
+  }
+
+  &.small {
+    font-size: 14px;
+    height: 32px;
+    padding: 0 16px;
+  }
+
+  &.ghost {
+    padding: 0;
+  }
+
+  &.disabled,
+  &.disabled:hover {
+    background: color(grey-light);
+    border-color: color(grey-light);
+    color: color(text-secondary);
+    cursor: not-allowed;
+  }
+
+  &.withIcon {
+    padding: 0 16px 0 12px;
+
+    &.small {
+      padding: 0 12px 0 8px;
+    }
+
+    .iconWrapper {
+      margin-right: 4px;
+    }
+
+    &.iconRight {
+      padding: 0 12px 0 16px;
+      flex-direction: row-reverse;
+
+      &.small {
+        padding: 0 8px 0 12px;
+      }
+
+      .iconWrapper {
+        margin-left: 4px;
+        margin-right: 0;
+      }
+    }
+  }
+
+  &.loading {
+    border: none;
+    pointer-events: none;
+    background: transparent;
+  }
+}

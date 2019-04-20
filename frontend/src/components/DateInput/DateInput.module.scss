@@ -156,7 +156,7 @@
     background-color: transparent;
     background-image: none;
     box-shadow: none;
-    color: $secondary;
+    color: color(secondary);
     font-size: 12px;
     cursor: pointer;
   }
@@ -164,7 +164,7 @@
   /* Default modifiers */
 
   .DayPicker-Day--today {
-    color: $primary;
+    color: color(primary);
     font-weight: 900;
   }
 
@@ -192,18 +192,18 @@
   .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
     position: relative;
 
-    background-color: $secondary;
-    color: $white;
+    background-color: color(secondary);
+    color: color(white);
   }
 
   .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-    background-color: darken($secondary, 10%);
+    background-color: darken(color(secondary), 10%);
   }
 
   .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-    background-color: lighten($secondary, 40%);
-    color: $black;
+    background-color: lighten(color(secondary), 40%);
+    color: color(black);
   }
 
   /* DayPickerInput */
