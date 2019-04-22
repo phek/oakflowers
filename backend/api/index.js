@@ -10,7 +10,15 @@ app.post("/login", (req, res) => {
     },
     result => {
       if (result) {
-        res.send({ token: req.body.email });
+        res.send({
+          user: {
+            firstname: result.firstname,
+            lastname: result.lastname,
+            email: result.email,
+            token: 'SuperS3cret',
+            role: result.role
+          }
+        });
       } else {
         send403Response(res);
       }

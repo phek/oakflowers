@@ -52,7 +52,7 @@ const Navbar = ({ authenticated, error, login, logout, children }) => {
             )}
             {authenticated ? (
               <Link as="button" className={styles.menuItem} onClick={logout}>
-                <span className={styles.menuItem}>Logout</span>
+                <span className={styles.menuItem}>Logga ut</span>
               </Link>
             ) : (
               <Link
@@ -60,7 +60,7 @@ const Navbar = ({ authenticated, error, login, logout, children }) => {
                 className={styles.menuItem}
                 onClick={showLoginPopup}
               >
-                <span className={styles.menuItem}>Login</span>
+                <span className={styles.menuItem}>Logga in</span>
               </Link>
             )}
           </div>

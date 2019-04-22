@@ -9,10 +9,10 @@ import * as serviceWorker from "./serviceWorker";
 import "./index.scss";
 
 const store = configureStore();
-const token = localStorage.getItem("user");
+const user = JSON.parse(localStorage.getItem("user"));
 
-if (token) {
-  store.dispatch({ type: AUTHENTICATED, payload: token });
+if (user) {
+  store.dispatch({ type: AUTHENTICATED, payload: user });
 }
 
 ReactDOM.render(

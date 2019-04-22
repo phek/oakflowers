@@ -8,10 +8,10 @@ export function login({ email, password }, callback) {
   return async dispatch => {
     try {
       const res = await axios.post(`/api/login`, { email, password });
-      const token = res.data.token;
+      const user = res.data.user;
 
-      dispatch({ type: AUTHENTICATED, payload: token });
-      localStorage.setItem("user", token);
+      dispatch({ type: AUTHENTICATED, payload: user });
+      localStorage.setItem("user", JSON.stringify(user));
 
       if (typeof callback === "function") {
         callback();

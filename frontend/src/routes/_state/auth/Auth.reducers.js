@@ -6,6 +6,7 @@ import {
 
 const initState = {
   authenticated: false,
+  user: null,
   error: null
 };
 
@@ -15,11 +16,11 @@ export default function(state = initState, action) {
       return {
         ...state,
         authenticated: true,
-        token: action.payload,
+        user: action.payload,
         error: null
       };
     case UNAUTHENTICATED:
-      return { ...state, authenticated: false, error: null };
+      return { ...state, authenticated: false, user: null, error: null };
     case AUTHENTICATION_ERROR:
       return { ...state, error: action.payload };
     default:

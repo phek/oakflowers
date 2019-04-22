@@ -23,18 +23,24 @@ const Calendar = ({
   getEvents,
   setEvent,
   events,
-  token,
+  user,
   authenticated
 }) => {
-  useEffect(() => {
-    getEvents(token);
-  }, [authenticated]);
-
   const [selectedTitle, setSelectedTitle] = useState(""); // String
   const [selectedStartDate, setSelectedStartDate] = useState(); // Date
   const [selectedStartTime, setSelectedStartTime] = useState(); // Time String
   const [selectedEndDate, setSelectedEndDate] = useState(); // Date
   const [selectedEndTime, setSelectedEndTime] = useState(); // Time String
+
+  useEffect(() => {
+    getEvents();
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      setSelectedTitle(`${user.firstname} ${user.lastname} Tennis`);
+    }
+  }, [user]);
 
   const addEvent = () => {
     const title = selectedTitle || "No Title";
@@ -64,8 +70,8 @@ const Calendar = ({
       start: start,
       end: end
     };
-    if (authenticated) {
-      setEvent(newEvent, token);
+    if (authenticated && user) {
+      setEvent(newEvent, user.token);
     }
     unSelectDate();
   };
@@ -265,7 +271,7 @@ Calendar.propTypes = {
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
-  token: state.auth.token,
+  user: state.auth.user,
   events: state.events.events
 });
 

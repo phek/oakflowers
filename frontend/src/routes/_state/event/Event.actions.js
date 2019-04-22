@@ -3,18 +3,16 @@ import axios from "axios";
 export const RECIEVED_EVENTS = "recieved_events";
 export const EVENTS_ERROR = "events_error";
 
-export function getEvents(token) {
-  console.log("Called getEvents()");
+export function getEvents() {
   return async dispatch => {
     try {
-      const res = await axios.get(`/api/get/events`, { params: { token } });
+      const res = await axios.get(`/api/get/events`);
 
       dispatch({
         type: RECIEVED_EVENTS,
         payload: convertEvents(res.data.events)
       });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: EVENTS_ERROR,
         payload: "Unable to get events"
