@@ -1,8 +1,21 @@
 const express = require("express");
 const app = (module.exports = express());
+const { queryOne, send403Response } = require("./utils");
 
 app.post("/login", (req, res) => {
-  res.send({ token: req.body.email });
+  queryOne(
+    {
+      email: req.body.email,
+      password: req.body.password
+    },
+    result => {
+      if (result) {
+        res.send({ token: req.body.email });
+      } else {
+        send403Response(res);
+      }
+    }
+  );
 });
 
 const today = new Date();
@@ -13,16 +26,12 @@ let events = [
     id: "test",
     start: today,
     end: tomorrow,
-    title: "Some title"
+    title: "Test event"
   }
 ];
 
 app.get("/get/events", (req, res) => {
-  if (req.query.token) {
-    res.send({ events });
-  } else {
-    send403Response(res);
-  }
+  res.send({ events });
 });
 
 app.post("/set/event", (req, res) => {
@@ -33,10 +42,3 @@ app.post("/set/event", (req, res) => {
     send403Response(res);
   }
 });
-
-function send403Response(res) {
-  res.status(403).send({
-    success: false,
-    message: "Not authenticated."
-  });
-}

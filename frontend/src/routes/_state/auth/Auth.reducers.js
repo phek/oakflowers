@@ -12,9 +12,14 @@ const initState = {
 export default function(state = initState, action) {
   switch (action.type) {
     case AUTHENTICATED:
-      return { ...state, authenticated: true, token: action.payload };
+      return {
+        ...state,
+        authenticated: true,
+        token: action.payload,
+        error: null
+      };
     case UNAUTHENTICATED:
-      return { ...state, authenticated: false };
+      return { ...state, authenticated: false, error: null };
     case AUTHENTICATION_ERROR:
       return { ...state, error: action.payload };
     default:

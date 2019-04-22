@@ -27,9 +27,7 @@ const Calendar = ({
   authenticated
 }) => {
   useEffect(() => {
-    if (authenticated) {
-      getEvents(token);
-    }
+    getEvents(token);
   }, [authenticated]);
 
   const [selectedTitle, setSelectedTitle] = useState(""); // String
@@ -86,7 +84,7 @@ const Calendar = ({
   };
 
   const selectDate = event => {
-    if (event) {
+    if (event && authenticated) {
       let startDate = event.start;
       let endDate = event.end;
 
@@ -209,9 +207,17 @@ const Calendar = ({
       />
       {selectedStartDate && (
         <Popup closeFunction={unSelectDate}>
-          <input value={selectedTitle} onChange={onTitleChange} />
-          <br />
+          <label htmlFor="title">Event name</label>
+          <input
+            id="title"
+            placeholder="Titel"
+            value={selectedTitle}
+            onChange={onTitleChange}
+          />
+          <label htmlFor="start">Start date</label>
           <DateInput
+            id="start"
+            style={{ marginRight: 8 }}
             value={selectedStartDate}
             onDayChange={date => onDateChange({ startDate: date })}
           />
@@ -219,8 +225,10 @@ const Calendar = ({
             value={selectedStartTime}
             onChange={time => onDateChange({ startTime: time })}
           />
-          <br />
+          <label htmlFor="end">End date</label>
           <DateInput
+            id="end"
+            style={{ marginRight: 8 }}
             value={selectedEndDate}
             onDayChange={date => onDateChange({ endDate: date })}
           />
@@ -228,11 +236,11 @@ const Calendar = ({
             value={selectedEndTime}
             onChange={time => onDateChange({ endTime: time })}
           />
-          <br />
-          <br />
-          <Button color='black-light' size="s" onClick={addEvent}>
-            Boka
-          </Button>
+          <div style={{ marginTop: 8 }}>
+            <Button color="black-light" size="s" onClick={addEvent}>
+              Boka
+            </Button>
+          </div>
         </Popup>
       )}
     </>
@@ -240,7 +248,7 @@ const Calendar = ({
 };
 
 Calendar.defaultProps = {
-  height: "360px"
+  height: "500px"
 };
 
 Calendar.propTypes = {

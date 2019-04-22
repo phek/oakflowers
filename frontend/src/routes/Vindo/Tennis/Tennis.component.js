@@ -9,10 +9,14 @@ const Tennis = ({ authenticated }) => {
   return (
     <>
       <Container withBg>
-        <Heading level={1}>Boka tennis</Heading>
-        <Text color="text-secondary">
-          Intresserad av att spela tennis? Här nedan kan du boka tennisplan.
-        </Text>
+        <Heading level={1}>
+          {authenticated ? "Boka tennis" : "Tennis schema"}
+        </Heading>
+        {authenticated && (
+          <Text color="text-secondary">
+            Intresserad av att spela tennis? Här nedan kan du boka tennisplan.
+          </Text>
+        )}
         <br />
         <br />
         <Calendar />

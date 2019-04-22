@@ -1,0 +1,7 @@
+To access DB you need to create a file called auth.private.js in this folder that exports the following information:
+
+module.exports = {
+    username: 'dbUserName',
+    password: 'dbPassword',
+    cluster: 'myCluster.mongodb.net/admin'
+}
