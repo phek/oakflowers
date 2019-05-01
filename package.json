@@ -7,7 +7,7 @@
   "scripts": {
     "start-fe": "cd frontend && yarn start",
     "start-be": "cd backend && yarn start",
-    "start-prod": "yarn build-fe && cross-env NODE_ENV=production yarn start-be",
+    "start-prod": "yarn build-fe && cross-env NODE_ENV=test yarn start-be",
     "install-fe": "cd frontend && yarn",
     "install-be": "cd backend && yarn",
     "build-fe": "cd frontend && yarn build",
