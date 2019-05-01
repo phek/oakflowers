@@ -5,12 +5,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "frontend": "cd frontend && yarn start",
-    "backend": "cd backend && yarn start",
+    "start-fe": "cd frontend && yarn start",
+    "start-be": "cd backend && yarn start",
+    "start-prod": "yarn build-fe && cross-env NODE_ENV=production yarn start-be",
+    "install-fe": "cd frontend && yarn",
+    "install-be": "cd backend && yarn",
     "build-fe": "cd frontend && yarn build",
-    "prod-start": "cross-env NODE_ENV=production yarn backend",
-    "prod": "yarn build-fe && yarn prod-start",
-    "dev": "concurrently --kill-others-on-fail \"yarn backend\" \"yarn frontend\""
+    "dev": "concurrently --kill-others-on-fail \"yarn start-be\" \"yarn start-fe\"",
+    "deploy": "yarn install-fe && yarn build-fe && mv ./frontend/build /var/www"
   },
   "author": "Philip Ekblom",
   "devDependencies": {
