@@ -6,7 +6,7 @@ export const EVENTS_ERROR = "events_error";
 export function getEvents() {
   return async dispatch => {
     try {
-      const res = await axios.get(`/api/get/events`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/get/events`);
 
       dispatch({
         type: RECIEVED_EVENTS,
@@ -24,7 +24,7 @@ export function getEvents() {
 export function setEvent(event, token) {
   return async dispatch => {
     try {
-      const res = await axios.post(`/api/set/event`, { event, token });
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/set/event`, { event, token });
 
       dispatch({
         type: RECIEVED_EVENTS,
