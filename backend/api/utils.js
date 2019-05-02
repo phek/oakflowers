@@ -7,11 +7,11 @@ const dbUrl = `mongodb+srv://${dbInfo.username}:${dbInfo.password}@${
 function queryOne(query, callback, res) {
   MongoClient.connect(dbUrl, { useNewUrlParser: true }, function(err, db) {
     if (err) {
-      send500Response(res, error);
+      send500Response(res, err);
     } else {
       const dbo = db.db("oakflowers");
       dbo.collection("Users").findOne(query, (err, result) => {
-        if (err) send500Response(res, error);
+        if (err) send500Response(res, err);
         else {
           callback(result);
         }
@@ -24,7 +24,7 @@ function queryOne(query, callback, res) {
 function query(query, callback, res) {
   MongoClient.connect(dbUrl, { useNewUrlParser: true }, function(err, db) {
     if (err) {
-      send500Response(res, error);
+      send500Response(res, err);
     } else {
       const dbo = db.db("oakflowers");
       dbo
@@ -34,7 +34,7 @@ function query(query, callback, res) {
           password: req.body.password
         })
         .toArray((err, result) => {
-          if (err) send500Response(res, error);
+          if (err) send500Response(res, err);
           else callback(result);
         });
     }
