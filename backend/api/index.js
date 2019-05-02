@@ -22,7 +22,8 @@ app.post("/login", (req, res) => {
       } else {
         send403Response(res);
       }
-    }
+    },
+    res
   );
 });
 
