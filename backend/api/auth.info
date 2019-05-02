@@ -1,4 +1,4 @@
-To access DB you need to create a file called auth.private.js in this folder that exports the following information:
+To access DB you need to create a file called auth.js in this folder that exports the following information:
 
 module.exports = {
     username: 'dbUserName',

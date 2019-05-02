@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-const dbInfo = require("./auth.private");
+const dbInfo = require("./auth");
 const dbUrl = `mongodb+srv://${dbInfo.username}:${dbInfo.password}@${
   dbInfo.cluster
 }`;
