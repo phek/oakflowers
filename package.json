@@ -12,7 +12,7 @@
     "be": "cd backend && yarn start",
     "dev": "concurrently --kill-others-on-fail \"yarn be\" \"yarn fe\"",
     "prod": "yarn build-fe && cross-env NODE_ENV=test yarn be",
-    "deploy": "yarn install-fe && yarn build-fe && rm -f /var/www/build && mv ./frontend/build /var/www"
+    "deploy": "yarn install-fe && yarn build-fe && rm -rf /var/www/build && mv ./frontend/build /var/www"
   },
   "author": "Philip Ekblom",
   "devDependencies": {
