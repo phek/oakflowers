@@ -36,12 +36,6 @@ const Calendar = ({
     getEvents();
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      setSelectedTitle(`${user.firstname} ${user.lastname} Tennis`);
-    }
-  }, [user]);
-
   const addEvent = () => {
     const title = selectedTitle || "No Title";
 
@@ -65,7 +59,6 @@ const Calendar = ({
       .toDate();
 
     const newEvent = {
-      id: title,
       title: title,
       start: start,
       end: end
@@ -104,6 +97,9 @@ const Calendar = ({
 
       const newDate = getValidDate(startDate, endDate, startTime, endTime);
 
+      if (user) {
+        setSelectedTitle(`${user.firstname} ${user.lastname} Tennis`);
+      }
       setSelectedStartDate(newDate.startDate);
       setSelectedEndDate(newDate.endDate);
       setSelectedStartTime(newDate.startTime);

@@ -1,9 +1,10 @@
 const express = require("express");
 const app = (module.exports = express());
-const { queryOne, send403Response } = require("./utils");
+const { query, queryOne, post, send403Response } = require("./utils");
 
 app.post("/login", (req, res) => {
   queryOne(
+    "Users",
     {
       email: req.body.email,
       password: req.body.password
@@ -15,7 +16,7 @@ app.post("/login", (req, res) => {
             firstname: result.firstname,
             lastname: result.lastname,
             email: result.email,
-            token: 'SuperS3cret',
+            token: "SuperS3cret",
             role: result.role
           }
         });
@@ -40,11 +41,40 @@ let events = [
 ];
 
 app.get("/get/events", (req, res) => {
-  res.send({ events });
+  query(
+    "Events",
+    undefined,
+    result => {
+      if (result) {
+        res.send({
+          events: result
+        });
+      } else {
+        send403Response(res);
+      }
+    },
+    res
+  );
 });
 
 app.post("/set/event", (req, res) => {
   if (req.body.token) {
+      post(
+        "Events",
+        {
+          title: req.body.event.title,
+          start: req.body.event.start,
+          end: req.body.event.end
+        },
+        result => {
+          if (result) {
+            res.status(200);
+          } else {
+            send403Response(res);
+          }
+        },
+        res
+      );
     events.push(req.body.event);
     res.send({ events });
   } else {

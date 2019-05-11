@@ -4,13 +4,13 @@ const dbUrl = `mongodb+srv://${dbInfo.username}:${dbInfo.password}@${
   dbInfo.cluster
 }`;
 
-function queryOne(query, callback, res) {
+function queryOne(collection, query, callback, res) {
   MongoClient.connect(dbUrl, { useNewUrlParser: true }, function(err, db) {
     if (err) {
       send500Response(res, err);
     } else {
       const dbo = db.db("oakflowers");
-      dbo.collection("Users").findOne(query, (err, result) => {
+      dbo.collection(collection).findOne(query, (err, result) => {
         if (err) send500Response(res, err);
         else {
           callback(result);
@@ -21,19 +21,33 @@ function queryOne(query, callback, res) {
   });
 }
 
-function query(query, callback, res) {
+function query(collection, query, callback, res) {
   MongoClient.connect(dbUrl, { useNewUrlParser: true }, function(err, db) {
     if (err) {
       send500Response(res, err);
     } else {
       const dbo = db.db("oakflowers");
       dbo
-        .collection("Users")
-        .find({
-          email: req.body.email,
-          password: req.body.password
-        })
+        .collection(collection)
+        .find(query)
         .toArray((err, result) => {
+          if (err) send500Response(res, err);
+          else callback(result);
+        });
+    }
+    db.close();
+  });
+}
+
+function post(collection, data, callback, res) {
+  MongoClient.connect(dbUrl, { useNewUrlParser: true }, function(err, db) {
+    if (err) {
+      send500Response(res, err);
+    } else {
+      const dbo = db.db("oakflowers");
+      dbo
+        .collection(collection)
+        .insert(data, (err, result) => {
           if (err) send500Response(res, err);
           else callback(result);
         });
@@ -60,6 +74,7 @@ function send500Response(res, error) {
 module.exports = {
   queryOne,
   query,
+  post,
   send403Response,
   send500Response
 };
