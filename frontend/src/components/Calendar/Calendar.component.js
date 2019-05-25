@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import moment from "moment";
 import "moment/locale/sv";
 import BigCalendar from "react-big-calendar";
-import { getEvents, setEvent } from "routes/_state/event/Event.actions";
+import { getEvents, setEvent, removeEvent } from "routes/_state/event/Event.actions";
 import Popup from "components/Popup";
 import DateInput from "components/DateInput";
 import TimeInput from "components/TimeInput";
 import Button from "components/Button";
 import "./Calendar.module.scss";
 
-moment.locale("sv", {
+moment.updateLocale("sv", {
   week: {
     dow: 1
   }
@@ -23,6 +23,7 @@ const Calendar = ({
   height,
   getEvents,
   setEvent,
+  removeEvent,
   events,
   user,
   authenticated
@@ -99,7 +100,7 @@ const Calendar = ({
       const newDate = getValidDate(startDate, endDate, startTime, endTime);
 
       if (user) {
-        setSelectedTitle(`${user.firstname} ${user.lastname} Tennis`);
+        setSelectedTitle(`${user.firstname} ${user.lastname}`);
       }
       setSelectedStartDate(newDate.startDate);
       setSelectedEndDate(newDate.endDate);
@@ -185,6 +186,10 @@ const Calendar = ({
     setSelectedEndTime(newDate.endTime);
   };
 
+  const onSelectEvent = event => {
+    removeEvent(event, user.token);
+  };
+
   return (
     <>
       <BigCalendar
@@ -204,9 +209,16 @@ const Calendar = ({
         defaultView="month"
         selectable
         views={["month", "week", "day"]}
-        messages={{'month': "Månad", 'week': 'Vecka', 'day': 'Dag', 'today': 'Idag', "previous":'Föregående', "next":"Nästa"}}
+        messages={{
+          month: "Månad",
+          week: "Vecka",
+          day: "Dag",
+          today: "Idag",
+          previous: "Föregående",
+          next: "Nästa"
+        }}
         onSelectSlot={selectDate}
-        onSelectEvent={data => console.log(data)}
+        onSelectEvent={onSelectEvent}
         style={{ height: height }}
       />
       {selectedStartDate && (
@@ -275,5 +287,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getEvents, setEvent }
+  { getEvents, setEvent, removeEvent }
 )(Calendar);

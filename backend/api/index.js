@@ -1,6 +1,6 @@
 const express = require("express");
 const app = (module.exports = express());
-const { query, queryOne, post, send403Response } = require("./utils");
+const { query, queryOne, post, remove, send403Response } = require("./utils");
 
 app.post("/login", (req, res) => {
   queryOne(
@@ -28,18 +28,6 @@ app.post("/login", (req, res) => {
   );
 });
 
-const today = new Date();
-const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-
-let events = [
-  {
-    id: "test",
-    start: today,
-    end: tomorrow,
-    title: "Test event"
-  }
-];
-
 app.get("/get/events", (req, res) => {
   query(
     "Events",
@@ -59,24 +47,43 @@ app.get("/get/events", (req, res) => {
 
 app.post("/set/event", (req, res) => {
   if (req.body.token) {
-      post(
-        "Events",
-        {
-          title: req.body.event.title,
-          start: req.body.event.start,
-          end: req.body.event.end
-        },
-        result => {
-          if (result) {
-            res.status(200);
-          } else {
-            send403Response(res);
-          }
-        },
-        res
-      );
-    events.push(req.body.event);
-    res.send({ events });
+    post(
+      "Events",
+      {
+        title: req.body.event.title,
+        start: req.body.event.start,
+        end: req.body.event.end
+      },
+      result => {
+        if (result) {
+          res.status(200).send();
+        } else {
+          send403Response(res);
+        }
+      },
+      res
+    );
+  } else {
+    send403Response(res);
+  }
+});
+
+app.delete("/remove/event", (req, res) => {
+  if (req.body.token) {
+    remove(
+      "Events",
+      {
+        _id: req.body.event._id
+      },
+      result => {
+        if (result) {
+          res.status(200).send();
+        } else {
+          send403Response(res);
+        }
+      },
+      res
+    );
   } else {
     send403Response(res);
   }

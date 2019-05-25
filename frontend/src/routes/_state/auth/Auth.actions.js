@@ -7,7 +7,7 @@ export const AUTHENTICATION_ERROR = "authentication_error";
 export function login({ email, password }, callback) {
   return async dispatch => {
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { email, password });
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, { email, password });
       const user = res.data.user;
 
       dispatch({ type: AUTHENTICATED, payload: user });
