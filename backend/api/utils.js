@@ -5,48 +5,15 @@ const dbUrl = `mongodb+srv://${dbInfo.username}:${dbInfo.password}@${
 }`;
 const dbName = "oakflowers";
 
-function queryOne(collection, query, callback, res) {
-  connect(database =>
-    database.collection(collection).findOne(query, (err, result) => {
-      if (err) send500Response(res, err);
-      else {
-        callback(result);
-      }
-    })
-  );
+function result(res, callback) {
+  return (error, result) => {
+    if (error) send500Response(res, error);
+    else if (!result) send403Response(res);
+    else res.status(200).send(callback ? callback(result) : undefined);
+  };
 }
 
-function query(collection, query, callback, res) {
-  connect(database =>
-    database
-      .collection(collection)
-      .find(query)
-      .toArray((err, result) => {
-        if (err) send500Response(res, err);
-        else callback(result);
-      })
-  );
-}
-
-function post(collection, data, callback, res) {
-  connect(database =>
-    database.collection(collection).insert(data, (err, result) => {
-      if (err) send500Response(res, err);
-      else callback(result);
-    })
-  );
-}
-
-function remove(collection, data, callback, res) {
-  connect(database =>
-    database.collection(collection).remove(data, (err, result) => {
-      if (err) send500Response(res, err);
-      else callback(result);
-    })
-  );
-}
-
-function connect(callback) {
+function connect(collection, callback, res) {
   MongoClient.connect(dbUrl, { useNewUrlParser: true }, function(
     err,
     database
@@ -54,7 +21,7 @@ function connect(callback) {
     if (err) {
       send500Response(res, err);
     } else {
-      callback(database.db(dbName));
+      callback(database.db(dbName).collection(collection));
       database.close();
     }
   });
@@ -76,10 +43,7 @@ function send500Response(res, error) {
 }
 
 module.exports = {
-  queryOne,
-  query,
-  post,
-  remove,
-  send403Response,
-  send500Response
+  connect,
+  result,
+  send403Response
 };

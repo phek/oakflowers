@@ -28,14 +28,17 @@ export function getEvents() {
 export function setEvent(event, token) {
   return async dispatch => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/set/event`, {
-        event,
-        token
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/set/event`,
+        {
+          event,
+          token
+        }
+      );
 
       dispatch({
         type: ADDED_EVENT,
-        event: event
+        event: { id: res.data.eventId, ...event }
       });
     } catch (error) {
       dispatch({
@@ -52,13 +55,12 @@ export function removeEvent(event, token) {
       await axios.delete(`${process.env.REACT_APP_API_URL}/remove/event`, {
         data: { event, token }
       });
-      console.log('Dispatching');
+
       dispatch({
         type: REMOVED_EVENT,
         event: event
       });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: EVENTS_ERROR,
         error: "Unable to remove event"

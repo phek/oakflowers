@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import moment from "moment";
 import "moment/locale/sv";
 import BigCalendar from "react-big-calendar";
-import { getEvents, setEvent, removeEvent } from "routes/_state/event/Event.actions";
+import {
+  getEvents,
+  setEvent,
+  removeEvent
+} from "routes/_state/event/Event.actions";
 import Popup from "components/Popup";
 import DateInput from "components/DateInput";
 import TimeInput from "components/TimeInput";
@@ -61,6 +65,7 @@ const Calendar = ({
       .toDate();
 
     const newEvent = {
+      user: user.email,
       title: title,
       start: start,
       end: end
@@ -187,7 +192,9 @@ const Calendar = ({
   };
 
   const onSelectEvent = event => {
-    removeEvent(event, user.token);
+    if (event.user === user.email) {
+      removeEvent(event, user.token);
+    }
   };
 
   return (
@@ -223,40 +230,42 @@ const Calendar = ({
       />
       {selectedStartDate && (
         <Popup closeFunction={unSelectDate}>
-          <label htmlFor="title">Event name</label>
-          <input
-            id="title"
-            placeholder="Titel"
-            value={selectedTitle}
-            onChange={onTitleChange}
-          />
-          <label htmlFor="start">Start date</label>
-          <DateInput
-            id="start"
-            style={{ marginRight: 8 }}
-            value={selectedStartDate}
-            onDayChange={date => onDateChange({ startDate: date })}
-          />
-          <TimeInput
-            value={selectedStartTime}
-            onChange={time => onDateChange({ startTime: time })}
-          />
-          <label htmlFor="end">End date</label>
-          <DateInput
-            id="end"
-            style={{ marginRight: 8 }}
-            value={selectedEndDate}
-            onDayChange={date => onDateChange({ endDate: date })}
-          />
-          <TimeInput
-            value={selectedEndTime}
-            onChange={time => onDateChange({ endTime: time })}
-          />
-          <div style={{ marginTop: 8 }}>
-            <Button color="black-light" size="s" onClick={addEvent}>
-              Boka
-            </Button>
-          </div>
+          <form onSubmit={addEvent}>
+            <label htmlFor="title">Event name</label>
+            <input
+              id="title"
+              placeholder="Titel"
+              value={selectedTitle}
+              onChange={onTitleChange}
+            />
+            <label htmlFor="start">Start date</label>
+            <DateInput
+              id="start"
+              style={{ marginRight: 8 }}
+              value={selectedStartDate}
+              onDayChange={date => onDateChange({ startDate: date })}
+            />
+            <TimeInput
+              value={selectedStartTime}
+              onChange={time => onDateChange({ startTime: time })}
+            />
+            <label htmlFor="end">End date</label>
+            <DateInput
+              id="end"
+              style={{ marginRight: 8 }}
+              value={selectedEndDate}
+              onDayChange={date => onDateChange({ endDate: date })}
+            />
+            <TimeInput
+              value={selectedEndTime}
+              onChange={time => onDateChange({ endTime: time })}
+            />
+            <div style={{ marginTop: 8 }}>
+              <Button color="black-light" size="s">
+                Boka
+              </Button>
+            </div>
+          </form>
         </Popup>
       )}
     </>

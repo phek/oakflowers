@@ -22,7 +22,9 @@ const Navbar = ({ authenticated, error, login, logout, children }) => {
     setLoginOpen(false);
   };
 
-  const loginUser = () => {
+  const loginUser = event => {
+    event.preventDefault();
+    
     if (email && password) {
       login({ email: email, password: password }, hideLoginPopup);
     }
@@ -69,34 +71,31 @@ const Navbar = ({ authenticated, error, login, logout, children }) => {
       </nav>
       {loginOpen && (
         <Popup closeFunction={hideLoginPopup}>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            placeholder="Email"
-            value={email}
-            onChange={updateEmail}
-          />
-          <label htmlFor="password">Lösenord</label>
-          <input
-            id="password"
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={updatePassword}
-          />
-          <Button
-            color="black-light"
-            size="s"
-            onClick={loginUser}
-            style={{ marginTop: 8 }}
-          >
-            Logga in
-          </Button>
-          {error && (
-            <Text color="negative" style={{ marginTop: 8 }}>
-              {error}
-            </Text>
-          )}
+          <form onSubmit={loginUser}>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              placeholder="Email"
+              value={email}
+              onChange={updateEmail}
+            />
+            <label htmlFor="password">Lösenord</label>
+            <input
+              id="password"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={updatePassword}
+            />
+            <Button color="black-light" size="s" style={{ marginTop: 8 }}>
+              Logga in
+            </Button>
+            {error && (
+              <Text color="negative" style={{ marginTop: 8 }}>
+                {error}
+              </Text>
+            )}
+          </form>
         </Popup>
       )}
     </>

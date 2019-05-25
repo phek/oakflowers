@@ -1,66 +1,58 @@
 const express = require("express");
 const app = (module.exports = express());
-const { query, queryOne, post, remove, send403Response } = require("./utils");
+const { connect, result, send403Response } = require("./utils");
+const ObjectID = require("mongodb").ObjectID;
 
 app.post("/login", (req, res) => {
-  queryOne(
+  const handleResult = result(res, result => ({
+    user: {
+      firstname: result.firstname,
+      lastname: result.lastname,
+      email: result.email,
+      token: "SuperS3cret",
+      role: result.role
+    }
+  }));
+  connect(
     "Users",
-    {
-      email: req.body.email,
-      password: req.body.password
-    },
-    result => {
-      if (result) {
-        res.send({
-          user: {
-            firstname: result.firstname,
-            lastname: result.lastname,
-            email: result.email,
-            token: "SuperS3cret",
-            role: result.role
-          }
-        });
-      } else {
-        send403Response(res);
-      }
-    },
+    db =>
+      db.findOne(
+        {
+          email: req.body.email,
+          password: req.body.password
+        },
+        handleResult
+      ),
     res
   );
 });
 
 app.get("/get/events", (req, res) => {
-  query(
+  const handleResult = result(res, result => ({ events: result }));
+  connect(
     "Events",
-    undefined,
-    result => {
-      if (result) {
-        res.send({
-          events: result
-        });
-      } else {
-        send403Response(res);
-      }
-    },
+    db => db.find().toArray(handleResult),
     res
   );
 });
 
 app.post("/set/event", (req, res) => {
   if (req.body.token) {
-    post(
+    const handleResult = result(res, result => ({
+      eventId: result.insertedId
+    }));
+    connect(
       "Events",
-      {
-        title: req.body.event.title,
-        start: req.body.event.start,
-        end: req.body.event.end
-      },
-      result => {
-        if (result) {
-          res.status(200).send();
-        } else {
-          send403Response(res);
-        }
-      },
+      db =>
+        db.insertOne(
+          {
+            user: req.body.event.user,
+            title: req.body.event.title,
+            start: req.body.event.start,
+            end: req.body.event.end
+          },
+          handleResult
+        ),
       res
     );
   } else {
@@ -70,18 +62,17 @@ app.post("/set/event", (req, res) => {
 
 app.delete("/remove/event", (req, res) => {
   if (req.body.token) {
-    remove(
+    const handleResult = result(res);
+    console.log("Deleting", ObjectID(req.body.event._id));
+    connect(
       "Events",
-      {
-        _id: req.body.event._id
-      },
-      result => {
-        if (result) {
-          res.status(200).send();
-        } else {
-          send403Response(res);
-        }
-      },
+      db =>
+        db.deleteOne(
+          {
+            _id: ObjectID(req.body.event._id)
+          },
+          handleResult
+        ),
       res
     );
   } else {
