@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
+import "moment/locale/sv";
 import BigCalendar from "react-big-calendar";
 import { getEvents, setEvent } from "routes/_state/event/Event.actions";
 import Popup from "components/Popup";
@@ -203,6 +204,7 @@ const Calendar = ({
         defaultView="month"
         selectable
         views={["month", "week", "day"]}
+        messages={{'month': "Månad", 'week': 'Vecka', 'day': 'Dag', 'today': 'Idag', "previous":'Föregående', "next":"Nästa"}}
         onSelectSlot={selectDate}
         onSelectEvent={data => console.log(data)}
         style={{ height: height }}
