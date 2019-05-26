@@ -38,7 +38,7 @@ export function setEvent(event, token) {
 
       dispatch({
         type: ADDED_EVENT,
-        event: { id: res.data.eventId, ...event }
+        event: { _id: res.data.eventId, user: res.data.userEmail, ...event }
       });
     } catch (error) {
       dispatch({

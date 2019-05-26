@@ -42,9 +42,10 @@ const Calendar = ({
     getEvents();
   }, []);
 
-  const addEvent = () => {
-    const title = selectedTitle || "No Title";
+  const addEvent = event => {
+    event.preventDefault();
 
+    const title = selectedTitle || "No Title";
     const startDate = moment(selectedStartDate);
     const startTime = moment(selectedStartTime, "HH:mm");
     const endDate = moment(selectedEndDate);
@@ -65,7 +66,6 @@ const Calendar = ({
       .toDate();
 
     const newEvent = {
-      user: user.email,
       title: title,
       start: start,
       end: end
@@ -74,6 +74,12 @@ const Calendar = ({
       setEvent(newEvent, user.token);
     }
     unSelectDate();
+  };
+
+  const onSelectEvent = event => {
+    if (event.user === user.email) {
+      removeEvent(event, user.token);
+    }
   };
 
   const getClosestInterval = () => {
@@ -189,12 +195,6 @@ const Calendar = ({
     setSelectedEndDate(newDate.endDate);
     setSelectedStartTime(newDate.startTime);
     setSelectedEndTime(newDate.endTime);
-  };
-
-  const onSelectEvent = event => {
-    if (event.user === user.email) {
-      removeEvent(event, user.token);
-    }
   };
 
   return (

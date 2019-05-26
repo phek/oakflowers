@@ -3,5 +3,6 @@ To access DB you need to create a file called auth.js in this folder that export
 module.exports = {
     username: 'dbUserName',
     password: 'dbPassword',
-    cluster: 'myCluster.mongodb.net/admin'
+    cluster: 'myCluster.mongodb.net/admin',
+    secret: 'mySecret'
 }

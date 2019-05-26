@@ -1,18 +1,27 @@
 const express = require("express");
 const app = (module.exports = express());
-const { connect, result, send403Response } = require("./utils");
+const jwt = require("jsonwebtoken");
+const authSettings = require("./auth");
+const { connect, result, auth, send403Response } = require("./utils");
 const ObjectID = require("mongodb").ObjectID;
 
 app.post("/login", (req, res) => {
-  const handleResult = result(res, result => ({
-    user: {
-      firstname: result.firstname,
-      lastname: result.lastname,
-      email: result.email,
-      token: "SuperS3cret",
-      role: result.role
-    }
-  }));
+  const handleResult = result(res, result => {
+    const { firstname, lastname, email, role } = result;
+    const token = jwt.sign(
+      { firstname, lastname, email, role },
+      authSettings.secret
+    );
+    return {
+      user: {
+        firstname,
+        lastname,
+        email,
+        token,
+        role
+      }
+    };
+  });
   connect(
     "Users",
     db =>
@@ -37,16 +46,17 @@ app.get("/get/events", (req, res) => {
 });
 
 app.post("/set/event", (req, res) => {
-  if (req.body.token) {
+  auth(req, res, user => {
     const handleResult = result(res, result => ({
-      eventId: result.insertedId
+      eventId: result.insertedId,
+      userEmail: user.email
     }));
     connect(
       "Events",
       db =>
         db.insertOne(
           {
-            user: req.body.event.user,
+            user: user.email,
             title: req.body.event.title,
             start: req.body.event.start,
             end: req.body.event.end
@@ -55,27 +65,24 @@ app.post("/set/event", (req, res) => {
         ),
       res
     );
-  } else {
-    send403Response(res);
-  }
+  });
 });
 
 app.delete("/remove/event", (req, res) => {
-  if (req.body.token) {
+  auth(req, res, user => {
     const handleResult = result(res);
-    console.log("Deleting", ObjectID(req.body.event._id));
     connect(
       "Events",
-      db =>
-        db.deleteOne(
+      db => {
+        return db.deleteOne(
           {
-            _id: ObjectID(req.body.event._id)
+            _id: ObjectID(req.body.event._id),
+            user: user.email
           },
           handleResult
-        ),
+        );
+      },
       res
     );
-  } else {
-    send403Response(res);
-  }
+  });
 });
