@@ -18,7 +18,7 @@ moment.updateLocale("sv", {
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
-const Calendar = ({ height, getEvents, events, user, authenticated }) => {
+const Calendar = ({ height, getEvents, events, user }) => {
   const [selectedDate, setSelectedDate] = useState();
   const [selectedEvent, setSelectedEvent] = useState();
 
@@ -27,7 +27,7 @@ const Calendar = ({ height, getEvents, events, user, authenticated }) => {
   }, []);
 
   const onSelectEvent = event => {
-    if (event.user === user.email) {
+    if (user && event.user === user.email) {
       setSelectedEvent(event);
     }
   };
@@ -37,7 +37,7 @@ const Calendar = ({ height, getEvents, events, user, authenticated }) => {
   };
 
   const onSelectDate = event => {
-    if (event && authenticated) {
+    if (event && user) {
       let startDate = event.start;
       let endDate = event.end;
 
@@ -118,7 +118,6 @@ Calendar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated,
   user: state.auth.user,
   events: state.events.events
 });

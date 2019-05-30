@@ -8,8 +8,9 @@ import Popup from "components/Popup";
 import DateInput from "components/DateInput";
 import TimeInput from "components/TimeInput";
 import Button from "components/Button";
+import Text from "components/Text";
 
-const NewEventPopup = ({ setEvent, closeFunction, user, authenticated, date }) => {
+const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
   const [selectedTitle, setSelectedTitle] = useState(
     user ? `${user.firstname} ${user.lastname}` : undefined
   );
@@ -25,39 +26,53 @@ const NewEventPopup = ({ setEvent, closeFunction, user, authenticated, date }) =
   const [selectedEndTime, setSelectedEndTime] = useState(
     date ? date.endTime : undefined
   );
+  const [error, setError] = useState();
 
   const addEvent = e => {
     e.preventDefault();
 
+    let eventError;
     const title = selectedTitle || "No Title";
     const startDate = moment(selectedStartDate);
     const startTime = moment(selectedStartTime, "HH:mm");
     const endDate = moment(selectedEndDate);
     const endTime = moment(selectedEndTime, "HH:mm");
 
-    const start = startDate
-      .set({
-        hour: startTime.get("hour"),
-        minute: startTime.get("minute")
-      })
-      .toDate();
+    const start = startDate.set({
+      hour: startTime.get("hour"),
+      minute: startTime.get("minute")
+    });
 
-    const end = endDate
-      .set({
-        hour: endTime.get("hour"),
-        minute: endTime.get("minute")
-      })
-      .toDate();
+    const end = endDate.set({
+      hour: endTime.get("hour"),
+      minute: endTime.get("minute")
+    });
 
     const newEvent = {
       title: title,
-      start: start,
-      end: end
+      start: start.toDate(),
+      end: end.toDate()
     };
-    if (authenticated && user) {
-      setEvent(newEvent, user.token);
+
+    if (!user) {
+      eventError = "Du är ej inloggad.";
     }
-    closeFunction();
+
+    if (end.diff(start, "minutes", true) > 120) {
+      eventError = "Du får max boka 2 timmar åt gången.";
+    }
+
+    if (eventError) {
+      setError(eventError);
+    } else {
+      setEvent(newEvent, user.token).then(error => {
+        if (error) {
+          setError(error);
+        } else {
+          closeFunction();
+        }
+      });
+    }
   };
 
   const onTitleChange = event => setSelectedTitle(event.target.value);
@@ -116,6 +131,11 @@ const NewEventPopup = ({ setEvent, closeFunction, user, authenticated, date }) =
             Boka
           </Button>
         </div>
+        {error && (
+          <Text style={{ marginTop: 8 }} color="negative">
+            {error}
+          </Text>
+        )}
       </form>
     </Popup>
   );
@@ -127,7 +147,6 @@ NewEventPopup.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated,
   user: state.auth.user
 });
 

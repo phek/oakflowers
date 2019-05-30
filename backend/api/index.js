@@ -2,7 +2,7 @@ const express = require("express");
 const app = (module.exports = express());
 const jwt = require("jsonwebtoken");
 const authSettings = require("./auth");
-const { connect, result, auth, send403Response } = require("./utils");
+const { connect, result, auth, send400Response } = require("./utils");
 const ObjectID = require("mongodb").ObjectID;
 
 app.post("/login", (req, res) => {

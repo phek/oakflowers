@@ -52,18 +52,22 @@ function auth(req, res, callback, adminOnly) {
   }
 }
 
+function send400Response(res, message) {
+  res.status(403).send({
+    message: message
+  });
+}
+
 function send403Response(res) {
   res.status(403).send({
-    success: false,
-    message: "Not authenticated."
+    message: "Authentisering misslyckades."
   });
 }
 
 function send500Response(res, error) {
   console.log(error);
   res.status(500).send({
-    success: false,
-    message: "Server error."
+    message: "Ett server fel uppstod."
   });
 }
 
@@ -71,5 +75,6 @@ module.exports = {
   auth,
   connect,
   result,
+  send400Response,
   send403Response
 };

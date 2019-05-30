@@ -17,10 +17,11 @@ export function getEvents() {
         events: convertEvents(res.data.events)
       });
     } catch (error) {
-      dispatch({
-        type: EVENTS_ERROR,
-        error: "Unable to get events"
-      });
+      if (error.response && error.response.data.message) {
+        return error.response.data.message;
+      } else {
+        return "Ett fel uppstod.";
+      }
     }
   };
 }
@@ -41,10 +42,11 @@ export function setEvent(event, token) {
         event: { _id: res.data.eventId, user: res.data.userEmail, ...event }
       });
     } catch (error) {
-      dispatch({
-        type: EVENTS_ERROR,
-        error: "Unable to set event"
-      });
+      if (error.response && error.response.data.message) {
+        return error.response.data.message;
+      } else {
+        return "Ett fel uppstod.";
+      }
     }
   };
 }
@@ -61,10 +63,7 @@ export function removeEvent(event, token) {
         event: event
       });
     } catch (error) {
-      dispatch({
-        type: EVENTS_ERROR,
-        error: "Unable to remove event"
-      });
+      return error;
     }
   };
 }

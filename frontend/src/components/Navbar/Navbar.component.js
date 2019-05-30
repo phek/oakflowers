@@ -9,10 +9,11 @@ import Text from "components/Text";
 import logo from "images/logo.png";
 import styles from "./Navbar.module.scss";
 
-const Navbar = ({ authenticated, error, login, logout, children }) => {
+const Navbar = ({ user, login, logout, children }) => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState();
 
   const showLoginPopup = () => {
     setLoginOpen(true);
@@ -24,9 +25,18 @@ const Navbar = ({ authenticated, error, login, logout, children }) => {
 
   const loginUser = event => {
     event.preventDefault();
-    
+
     if (email && password) {
-      login({ email: email, password: password }, hideLoginPopup);
+      login({ email: email, password: password }, hideLoginPopup).then(
+        error => {
+          if (error) {
+            setError(error);
+          } else {
+            setError(null);
+            hideLoginPopup();
+          }
+        }
+      );
     }
   };
 
@@ -47,12 +57,12 @@ const Navbar = ({ authenticated, error, login, logout, children }) => {
             <Link to={appRoutes.nerja.path} className={styles.menuItem}>
               <span className={styles.menuItem}>Nerja</span>
             </Link>
-            {authenticated && (
+            {user && (
               <Link to={appRoutes.aloeVera.path} className={styles.menuItem}>
                 <span className={styles.menuItem}>Aloe Vera</span>
               </Link>
             )}
-            {authenticated ? (
+            {user ? (
               <Link as="button" className={styles.menuItem} onClick={logout}>
                 <span className={styles.menuItem}>Logga ut</span>
               </Link>
@@ -103,8 +113,7 @@ const Navbar = ({ authenticated, error, login, logout, children }) => {
 };
 
 const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated,
-  error: state.auth.error
+  user: state.auth.user
 });
 
 export default connect(

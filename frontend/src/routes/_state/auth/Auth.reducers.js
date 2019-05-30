@@ -1,13 +1,7 @@
-import {
-  AUTHENTICATED,
-  UNAUTHENTICATED,
-  AUTHENTICATION_ERROR
-} from "./Auth.actions";
+import { AUTHENTICATED, UNAUTHENTICATED } from "./Auth.actions";
 
 const initState = {
-  authenticated: false,
-  user: null,
-  error: null
+  user: null
 };
 
 export default function(state = initState, action) {
@@ -15,14 +9,10 @@ export default function(state = initState, action) {
     case AUTHENTICATED:
       return {
         ...state,
-        authenticated: true,
-        user: action.payload,
-        error: null
+        user: action.payload
       };
     case UNAUTHENTICATED:
-      return { ...state, authenticated: false, user: null, error: null };
-    case AUTHENTICATION_ERROR:
-      return { ...state, error: action.payload };
+      return { ...state, user: null };
     default:
       return state;
   }

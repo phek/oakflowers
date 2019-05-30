@@ -8,14 +8,9 @@ import Popup from "components/Popup";
 import DateInput from "components/DateInput";
 import TimeInput from "components/TimeInput";
 import Button from "components/Button";
+import Text from "components/Text";
 
-const SelectedEventPopup = ({
-  removeEvent,
-  closeFunction,
-  user,
-  authenticated,
-  event
-}) => {
+const SelectedEventPopup = ({ removeEvent, closeFunction, user, event }) => {
   const [selectedTitle, setSelectedTitle] = useState(
     event ? event.title : undefined
   );
@@ -31,12 +26,20 @@ const SelectedEventPopup = ({
   const [selectedEndTime, setSelectedEndTime] = useState(
     event ? moment(event.end).format("HH:mm") : undefined
   );
+  const [error, setError] = useState();
 
   const deleteEvent = () => {
-    if (event.user === user.email) {
-      removeEvent(event, user.token);
+    if (user) {
+      removeEvent(event, user.token).then(error => {
+        if (error) {
+          setError(error);
+        } else {
+          closeFunction();
+        }
+      });
+    } else {
+      setError("Ej inloggad.");
     }
-    closeFunction();
   };
 
   const editEvent = e => {
@@ -67,10 +70,9 @@ const SelectedEventPopup = ({
       start: start,
       end: end
     };
-    if (authenticated && user) {
-      // Edit event
-      console.log(newEvent);
-    }
+
+    // Edit event
+    console.log(newEvent);
     closeFunction();
   };
 
@@ -135,6 +137,11 @@ const SelectedEventPopup = ({
             Ta bort event
           </Button>
         </div>
+        {error && (
+          <Text style={{ marginTop: 8 }} color="negative">
+            {error}
+          </Text>
+        )}
       </form>
     </Popup>
   );
@@ -146,7 +153,6 @@ SelectedEventPopup.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated,
   user: state.auth.user
 });
 

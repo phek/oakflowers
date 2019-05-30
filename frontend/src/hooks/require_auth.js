@@ -6,13 +6,13 @@ const LOGIN_PAGE = "/signin";
 export default function(ComposedComponent) {
   class Authentication extends Component {
     componentWillMount() {
-      if (!this.props.authenticated) {
+      if (!this.props.user) {
         this.props.history.push(LOGIN_PAGE);
       }
     }
 
     componentWillUpdate(nextProps) {
-      if (!nextProps.authenticated) {
+      if (!nextProps.user) {
         this.props.history.push(LOGIN_PAGE);
       }
     }
@@ -23,7 +23,7 @@ export default function(ComposedComponent) {
   }
 
   function mapStateToProps(state) {
-    return { authenticated: state.auth.authenticated };
+    return { user: state.auth.user };
   }
 
   return connect(mapStateToProps)(Authentication);

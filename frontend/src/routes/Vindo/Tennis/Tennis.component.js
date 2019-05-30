@@ -5,14 +5,12 @@ import Heading from "components/Heading";
 import Text from "components/Text";
 import Calendar from "components/Calendar";
 
-const Tennis = ({ authenticated }) => {
+const Tennis = ({ user }) => {
   return (
     <>
       <Container withBg>
-        <Heading level={1}>
-          {authenticated ? "Boka tennis" : "Tennis schema"}
-        </Heading>
-        {authenticated && (
+        <Heading level={1}>{user ? "Boka tennis" : "Tennis schema"}</Heading>
+        {user && (
           <Text color="text-secondary">
             Intresserad av att spela tennis? Här nedan kan du boka tennisplan.
           </Text>
@@ -26,7 +24,7 @@ const Tennis = ({ authenticated }) => {
 };
 
 const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps)(Tennis);

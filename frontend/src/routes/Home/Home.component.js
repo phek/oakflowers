@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import Container from "components/Container/Container.component";
 import Content from "components/Content/Content.component";
 import Heading from "components/Heading";
@@ -7,7 +6,7 @@ import Text from "components/Text";
 import Navbar from "components/Navbar/Navbar.component";
 import styles from "./Home.module.scss";
 
-const Home = ({ authenticated }) => {
+const Home = () => {
   return (
     <>
       <Navbar />
@@ -28,8 +27,4 @@ const Home = ({ authenticated }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated
-});
-
-export default connect(mapStateToProps)(Home);
+export default Home;
