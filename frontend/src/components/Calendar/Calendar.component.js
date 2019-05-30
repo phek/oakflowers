@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 import moment from "moment";
 import "moment/locale/sv";
 import BigCalendar from "react-big-calendar";
-import { getEvents, removeEvent } from "routes/_state/event/Event.actions";
+import { getEvents } from "routes/_state/event/Event.actions";
 import { getClosestInterval, getValidDate } from "./eventUtils";
-import EventPopup from "./EventPopup";
+import NewEventPopup from "./NewEventPopup";
+import SelectedEventPopup from "./SelectedEventPopup";
 import "./Calendar.module.scss";
 
 moment.updateLocale("sv", {
@@ -17,15 +18,9 @@ moment.updateLocale("sv", {
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
-const Calendar = ({
-  height,
-  getEvents,
-  removeEvent,
-  events,
-  user,
-  authenticated
-}) => {
+const Calendar = ({ height, getEvents, events, user, authenticated }) => {
   const [selectedDate, setSelectedDate] = useState();
+  const [selectedEvent, setSelectedEvent] = useState();
 
   useEffect(() => {
     getEvents();
@@ -33,11 +28,15 @@ const Calendar = ({
 
   const onSelectEvent = event => {
     if (event.user === user.email) {
-      removeEvent(event, user.token);
+      setSelectedEvent(event);
     }
   };
 
-  const selectDate = event => {
+  const unSelectEvent = () => {
+    setSelectedEvent(null);
+  };
+
+  const onSelectDate = event => {
     if (event && authenticated) {
       let startDate = event.start;
       let endDate = event.end;
@@ -85,12 +84,18 @@ const Calendar = ({
           previous: "Föregående",
           next: "Nästa"
         }}
-        onSelectSlot={selectDate}
+        onSelectSlot={onSelectDate}
         onSelectEvent={onSelectEvent}
         style={{ height: height }}
       />
       {selectedDate && (
-        <EventPopup closeFunction={unSelectDate} date={selectedDate} />
+        <NewEventPopup closeFunction={unSelectDate} date={selectedDate} />
+      )}
+      {selectedEvent && (
+        <SelectedEventPopup
+          closeFunction={unSelectEvent}
+          event={selectedEvent}
+        />
       )}
     </>
   );
@@ -120,5 +125,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getEvents, removeEvent }
+  { getEvents }
 )(Calendar);

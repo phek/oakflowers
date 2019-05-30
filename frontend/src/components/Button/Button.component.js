@@ -72,7 +72,7 @@ Button.propTypes = {
   as: PropTypes.oneOfType([PropTypes.element, PropTypes.node, PropTypes.func]),
   kind: PropTypes.oneOf(["border", "filled", "ghost"]),
   size: PropTypes.oneOf(["s", "m"]),
-  color: PropTypes.oneOf(["primary", "secondary", "black-light"]),
+  color: PropTypes.oneOf(["primary", "secondary", "black-light", 'negative']),
   icon: PropTypes.node,
   iconPosition: PropTypes.oneOf(["left", "right"]),
   children: PropTypes.node,

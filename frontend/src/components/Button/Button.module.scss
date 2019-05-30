@@ -38,8 +38,8 @@
   &:hover,
   &:focus {
     border-color: $activeColor;
-    background: $activeColor
-      radial-gradient(circle, transparent 1%, $color 1%) center/15000%;
+    background: $activeColor radial-gradient(circle, transparent 1%, $color 1%)
+      center/15000%;
     color: $focusColor;
   }
 
@@ -70,6 +70,9 @@
   &.black-light {
     @include borderButton(black-light);
   }
+  &.negative {
+    @include borderButton(negative);
+  }
 }
 
 .filled {
@@ -82,15 +85,20 @@
   &.black-light {
     @include filledButton(black-light);
   }
+  &.negative {
+    @include filledButton(negative);
+  }
 }
 
 .ghost {
   &.primary {
     @include ghostButton(primary);
   }
-
   &.secondary {
     @include ghostButton(secondary);
+  }
+  &.negative {
+    @include ghostButton(negative);
   }
 }
 
