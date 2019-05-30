@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build-fe": "cd frontend && yarn build",
-    "install": "yarn && yarn install-be && yarn install-fe",
+    "install-all": "yarn && yarn install-be && yarn install-fe",
     "install-fe": "cd frontend && yarn",
     "install-be": "cd backend && yarn",
     "start-fe": "cd frontend && yarn start",
