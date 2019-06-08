@@ -1,0 +1,24 @@
+@import "styles/colors.scss";
+
+.imgWrapper {
+  display: flex;
+  position: relative;
+  align-items: center;
+  overflow: hidden;
+  height: 300px;
+}
+
+.img {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 500ms ease;
+  width: 100%;
+
+  &.selected {
+    opacity: 1;
+  }
+}
+
+.img img {
+  width: 100%;
+}
