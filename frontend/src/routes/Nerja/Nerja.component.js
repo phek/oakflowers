@@ -9,9 +9,9 @@ import Text from "components/Text";
 
 const images = [
   "/images/nerja/nerja.jpg",
-  "/images/nerja/nerja1.jpg",
   "/images/nerja/nerja2.jpg",
-  "/images/nerja/nerja3.jpg"
+  "/images/nerja/nerja3.jpg",
+  "/images/nerja/nerja4.jpg"
 ];
 
 const Nerja = () => (
