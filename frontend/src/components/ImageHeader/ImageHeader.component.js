@@ -29,8 +29,8 @@ const ImageHeader = ({ images }) => {
         });
 
         return (
-          <div className={imgClasses}>
-            <img src={src} alt="Header image" />
+          <div className={imgClasses} key={src}>
+            <img src={src} alt="Header" />
           </div>
         );
       })}
