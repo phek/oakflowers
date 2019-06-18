@@ -1,3 +1,9 @@
+@import "styles/mixins/breakpoints.scss";
+
 .wrapper {
-  padding: 40px;
+  padding: 16px;
+
+  @include breakpoint(s) {
+    padding: 40px;
+  }
 }

@@ -1,11 +1,20 @@
 @import "styles/colors.scss";
+@import "styles/mixins/breakpoints.scss";
 
 .imgWrapper {
   display: flex;
   position: relative;
   align-items: center;
   overflow: hidden;
-  height: 340px;
+  height: 180px;
+
+  @include breakpoint(s) {
+    height: 280px;
+  }
+
+  @include breakpoint(m) {
+    height: 340px;
+  }
 }
 
 .img {

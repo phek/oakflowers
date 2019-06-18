@@ -5,7 +5,6 @@ import Container from "components/Container/Container.component";
 import Wrapper from "components/Wrapper/Wrapper.component";
 import ImageHeader from "components/ImageHeader/ImageHeader.component";
 import Heading from "components/Heading";
-import Text from "components/Text";
 
 const images = [
   "/images/nerja/nerja.jpg",

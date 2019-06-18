@@ -1,6 +1,12 @@
-@import '../exports/breakpoints/breakpoints';
-
 @mixin breakpoint($min: 'n/a', $max: 'n/a') {
+  $_breakpoints: (
+    xs: 360px,
+    s: 768px,
+    m: 1025px,
+    ads: 1188px,
+    l: 1600px,
+  );
+
   $min-breakpoint: map-get($_breakpoints, $min);
   $max-breakpoint: map-get($_breakpoints, $max);
   $query: 'all' !default;

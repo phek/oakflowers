@@ -47,8 +47,8 @@ const Navbar = ({ user, login, logout, children }) => {
     <>
       <nav className={styles.navBar}>
         <div className={styles.mainNav}>
-          <Link to={appRoutes.home.path}>
-            <img className={styles.logo} src={logo} alt="Logo" />
+          <Link className={styles.logo} to={appRoutes.home.path}>
+            <img src={logo} alt="Logo" />
           </Link>
           <div className={styles.rightNav}>
             <Link to={appRoutes.vindo.path}>
@@ -57,11 +57,6 @@ const Navbar = ({ user, login, logout, children }) => {
             <Link to={appRoutes.nerja.path} className={styles.menuItem}>
               <span className={styles.menuItem}>Nerja</span>
             </Link>
-            {user && (
-              <Link to={appRoutes.aloeVera.path} className={styles.menuItem}>
-                <span className={styles.menuItem}>Aloe Vera</span>
-              </Link>
-            )}
             {user ? (
               <Link as="button" className={styles.menuItem} onClick={logout}>
                 <span className={styles.menuItem}>Logga ut</span>

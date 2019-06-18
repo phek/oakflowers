@@ -1,4 +1,5 @@
 @import "styles/colors.scss";
+@import "styles/mixins/breakpoints.scss";
 
 :global {
   .rbc-btn {
@@ -131,6 +132,10 @@
     align-items: center;
     margin-bottom: 10px;
     font-size: 16px;
+
+    @include breakpoint(null, m) {
+      flex-direction: column;
+    }
   }
   .rbc-toolbar .rbc-toolbar-label {
     -webkit-flex-grow: 1;
@@ -138,6 +143,10 @@
     flex-grow: 1;
     padding: 0 10px;
     text-align: center;
+
+    @include breakpoint(null, m) {
+      margin: 8px;
+    }
   }
   .rbc-toolbar button {
     display: inline-block;
