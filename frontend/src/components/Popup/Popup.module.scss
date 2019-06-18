@@ -15,6 +15,8 @@ $width: 400px;
   border-radius: 4px;
   @include box-shadow(s);
   
+  top: 0;
+  left: 0;
   margin-top: 80px;
   margin-left: 8px;
   margin-right: 8px;
