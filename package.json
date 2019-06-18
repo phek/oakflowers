@@ -15,14 +15,13 @@
     "prod": "yarn build-fe && cross-env NODE_ENV=prod yarn start-be",
     "deploy-fe": "yarn install-fe && yarn build-fe && rm -rf /var/www/build && mv ./frontend/build /var/www && service nginx restart",
     "deploy-be": "yarn install-be && forever stopall && forever start backend/index.js",
-    "deploy": "yarn deploy-fe && yarn deploy-be"
+    "deploy": "git pull && yarn deploy-fe && yarn deploy-be"
   },
   "author": "Philip Ekblom",
   "devDependencies": {
     "concurrently": "^4.1.0"
   },
   "dependencies": {
-    "cross-env": "^5.2.0",
-    "react-app-polyfill": "^1.0.1"
+    "cross-env": "^5.2.0"
   }
 }
