@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors')
 const app = express();
-const port = process.env.PORT || 2053;
+const port = process.env.PORT || 5000;
 const api = require("./api");
 
 app.use(compression());
