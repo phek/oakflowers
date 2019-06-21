@@ -13,7 +13,8 @@
     "start-be": "cd backend && yarn start",
     "dev": "concurrently --kill-others-on-fail \"yarn start-be\" \"yarn start-fe\"",
     "prod": "yarn build-fe && cross-env NODE_ENV=serve yarn start-be",
-    "deploy": "git pull && yarn install-all && yarn build-fe && forever stopall && NODE_ENV=serve forever start backend/index.js"
+    "get-dependencies": "git pull && yarn install-all",
+    "deploy": "yarn get-dependencies && yarn build-fe && cp ./frontend/build /production/ && cp -a ./backend/. /production/ && forever stopall && NODE_ENV=serve forever start production/index.js"
   },
   "author": "Philip Ekblom",
   "devDependencies": {
