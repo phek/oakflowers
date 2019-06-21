@@ -12,10 +12,8 @@
     "start-fe": "cd frontend && yarn start",
     "start-be": "cd backend && yarn start",
     "dev": "concurrently --kill-others-on-fail \"yarn start-be\" \"yarn start-fe\"",
-    "prod": "yarn build-fe && cross-env NODE_ENV=prod yarn start-be",
-    "deploy-fe": "yarn install-fe && yarn build-fe && rm -rf /var/www/build && mv ./frontend/build /var/www && service nginx restart",
-    "deploy-be": "yarn install-be && forever stopall && forever start backend/index.js",
-    "deploy": "git pull && yarn deploy-fe && yarn deploy-be"
+    "prod": "yarn build-fe && cross-env NODE_ENV=serve yarn start-be",
+    "deploy": "git pull && yarn install-all && forever stopall && forever start -c 'yarn prod' ./"
   },
   "author": "Philip Ekblom",
   "devDependencies": {

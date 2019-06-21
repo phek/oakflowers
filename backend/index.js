@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require('cors')
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 80;
+const http = require('http').createServer(app);
 const api = require("./api");
 
 app.use(compression());
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', api);
 
-if (process.env.NODE_ENV === "prod") {
+if (process.env.NODE_ENV === "serve") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "../frontend/build")));
   // Handle React routing, return all requests to React app
@@ -22,4 +23,4 @@ if (process.env.NODE_ENV === "prod") {
   });
 }
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+http.listen(port, () => console.log(`Listening on port ${port}`));
