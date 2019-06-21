@@ -17,7 +17,7 @@
     "move-fe": "cp -ar ./frontend/build /production",
     "move-be": "cp -ar ./backend/. /production/",
     "deploy-fe": "yarn build-fe && yarn move-fe",
-    "deploy-be": "move-be && forever stopall && NODE_ENV=serve forever start /production/index.js",
+    "deploy-be": "yarn move-be && forever stopall && NODE_ENV=serve forever start /production/index.js",
     "deploy": "yarn get-dependencies && yarn deploy-fe && yarn deploy-be"
   },
   "author": "Philip Ekblom",
