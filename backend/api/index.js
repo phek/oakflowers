@@ -2,6 +2,7 @@ const express = require("express");
 const app = (module.exports = express());
 const jwt = require("jsonwebtoken");
 const authSettings = require("./auth");
+const socket = require("../helpers/socket");
 const { connect, result, auth, send400Response } = require("./utils");
 const ObjectID = require("mongodb").ObjectID;
 
@@ -47,10 +48,14 @@ app.get("/get/events", (req, res) => {
 
 app.post("/set/event", (req, res) => {
   auth(req, res, user => {
-    const handleResult = result(res, result => ({
-      eventId: result.insertedId,
-      userEmail: user.email
-    }));
+    const handleResult = result(res, result => {
+      newEventsLoaded();
+
+      return {
+        eventId: result.insertedId,
+        userEmail: user.email
+      };
+    });
     connect(
       "Events",
       db =>
@@ -70,7 +75,7 @@ app.post("/set/event", (req, res) => {
 
 app.delete("/remove/event", (req, res) => {
   auth(req, res, user => {
-    const handleResult = result(res);
+    const handleResult = result(res, newEventsLoaded);
     connect(
       "Events",
       db => {
@@ -86,3 +91,10 @@ app.delete("/remove/event", (req, res) => {
     );
   });
 });
+
+function newEventsLoaded() {
+  const io = socket.getConnection();
+  if (io) {
+    io.emit("newEvents");
+  }
+}

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import "moment/locale/sv";
 import BigCalendar from "react-big-calendar";
+import socketIO from "socket.io-client";
 import { getEvents } from "routes/_state/event/Event.actions";
 import { getClosestInterval, getValidDate } from "./eventUtils";
 import NewEventPopup from "./NewEventPopup";
@@ -23,7 +24,11 @@ const Calendar = ({ height, getEvents, events, user }) => {
   const [selectedEvent, setSelectedEvent] = useState();
 
   useEffect(() => {
+    const socket = socketIO(process.env.REACT_APP_SERVER_URL);
     getEvents();
+    socket.on("newEvents", () => {
+      getEvents();
+    });
   }, []);
 
   const onSelectEvent = event => {

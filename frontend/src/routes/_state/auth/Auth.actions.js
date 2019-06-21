@@ -6,7 +6,7 @@ export const UNAUTHENTICATED = "unauthenticated_user";
 export function login({ email, password }) {
   return async dispatch => {
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, {
+      const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/login`, {
         email,
         password
       });

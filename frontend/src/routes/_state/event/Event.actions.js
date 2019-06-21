@@ -1,4 +1,5 @@
 import axios from "axios";
+import { convertEvents } from "utils/eventUtils";
 
 export const RECIEVED_EVENTS = "recieved_events";
 export const ADDED_EVENT = "added_event";
@@ -9,7 +10,7 @@ export function getEvents() {
   return async dispatch => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/get/events`
+        `${process.env.REACT_APP_SERVER_URL}/api/get/events`
       );
 
       dispatch({
@@ -30,7 +31,7 @@ export function setEvent(event, token) {
   return async dispatch => {
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/set/event`,
+        `${process.env.REACT_APP_SERVER_URL}/api/set/event`,
         {
           event,
           token
@@ -54,7 +55,7 @@ export function setEvent(event, token) {
 export function removeEvent(event, token) {
   return async dispatch => {
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/remove/event`, {
+      await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/remove/event`, {
         data: { event, token }
       });
 
@@ -66,17 +67,4 @@ export function removeEvent(event, token) {
       return error;
     }
   };
-}
-
-function convertEvents(events) {
-  let newEvents = [];
-  for (let event of events) {
-    newEvents.push({
-      ...event,
-      start: new Date(event.start),
-      end: new Date(event.end)
-    });
-  }
-
-  return newEvents;
 }
