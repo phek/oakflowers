@@ -6,12 +6,14 @@ const cors = require('cors')
 const app = express();
 const port = process.env.PORT || 80;
 const http = require('http').createServer(app);
+const https = require('express-force-https');
 const api = require("./api");
 
 app.use(compression());
 app.use(cors({credentials: true, origin: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(https);
 app.use('/api', api);
 
 if (process.env.NODE_ENV === "serve") {
