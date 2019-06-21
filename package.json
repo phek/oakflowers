@@ -14,7 +14,7 @@
     "dev": "concurrently --kill-others-on-fail \"yarn start-be\" \"yarn start-fe\"",
     "prod": "yarn build-fe && cross-env NODE_ENV=serve yarn start-be",
     "get-dependencies": "git pull && yarn install-all",
-    "move-fe": "cp ./frontend/build /production/",
+    "move-fe": "cp ./frontend/build /production",
     "move-be": "cp -a ./backend/. /production/",
     "deploy": "yarn get-dependencies && yarn build-fe && yarn move-fe && move-be && forever stopall && NODE_ENV=serve forever start /production/index.js"
   },
