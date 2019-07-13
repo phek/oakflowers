@@ -19,7 +19,7 @@ moment.updateLocale("sv", {
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
-const Calendar = ({ height, getEvents, events, user }) => {
+const Calendar = ({ getEvents, events, user }) => {
   const [selectedDate, setSelectedDate] = useState();
   const [selectedEvent, setSelectedEvent] = useState();
 
@@ -91,7 +91,6 @@ const Calendar = ({ height, getEvents, events, user }) => {
         }}
         onSelectSlot={onSelectDate}
         onSelectEvent={onSelectEvent}
-        style={{ height: height }}
       />
       {selectedDate && (
         <NewEventPopup closeFunction={unSelectDate} date={selectedDate} />
@@ -106,10 +105,6 @@ const Calendar = ({ height, getEvents, events, user }) => {
   );
 };
 
-Calendar.defaultProps = {
-  height: "500px"
-};
-
 Calendar.propTypes = {
   events: PropTypes.arrayOf(
     PropTypes.shape({
@@ -118,8 +113,7 @@ Calendar.propTypes = {
       end: PropTypes.any,
       allDay: PropTypes.bool
     })
-  ),
-  height: PropTypes.string
+  )
 };
 
 const mapStateToProps = state => ({

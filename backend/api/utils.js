@@ -1,27 +1,27 @@
 const authSettings = require("./auth");
 const jwt = require("jsonwebtoken");
 
-function isAuthenticated(req, adminOnly) {
+function getUser(req, adminOnly) {
   let token =
     req.body.token || req.query.token || req.headers["x-access-token"];
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, authSettings.secret);
+      const user = jwt.verify(token, authSettings.secret);
       if (adminOnly) {
-        if (decoded.role === "admin") {
-          return true;
+        if (user.role === "admin") {
+          return user;
         } else {
-          return false;
+          return null;
         }
       } else {
-        return true;
+        return user;
       }
     } catch (err) {
-      return false;
+      return null;
     }
   } else {
-    return false;
+    return null;
   }
 }
 
@@ -39,7 +39,7 @@ function send500Response(res, error) {
 }
 
 module.exports = {
-  isAuthenticated,
+  getUser,
   send403Response,
   send500Response
 };

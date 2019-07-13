@@ -9,7 +9,7 @@ const url = `mongodb+srv://${authSettings.username}:${authSettings.password}@${
 }`;
 const socket = require("../helpers/socket");
 const {
-  isAuthenticated,
+  getUser,
   send403Response,
   send500Response
 } = require("./utils");
@@ -77,7 +77,9 @@ app.get("/get/events", (req, res) => {
 });
 
 app.post("/set/event", (req, res) => {
-  if (isAuthenticated(req)) {
+  const user = getUser(req);
+
+  if (user) {
     MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
       if (err) {
         send500Response(res, err);
@@ -111,7 +113,9 @@ app.post("/set/event", (req, res) => {
 });
 
 app.delete("/remove/event", (req, res) => {
-  if (isAuthenticated(req)) {
+  const user = getUser(req);
+
+  if (user) {
     MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
       if (err) {
         send500Response(res, err);

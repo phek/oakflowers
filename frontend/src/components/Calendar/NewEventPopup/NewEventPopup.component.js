@@ -38,14 +38,20 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
     const endDate = moment(selectedEndDate);
     const endTime = moment(selectedEndTime, "HH:mm");
 
+    const startHour = startTime.get("hour");
+    const startMinute = startTime.get("minute");
+
+    const endHour = endTime.get("hour");
+    const endMinute = endTime.get("minute");
+
     const start = startDate.set({
-      hour: startTime.get("hour"),
-      minute: startTime.get("minute")
+      hour: startHour,
+      minute: startMinute
     });
 
     const end = endDate.set({
-      hour: endTime.get("hour"),
-      minute: endTime.get("minute")
+      hour: endHour,
+      minute: endMinute
     });
 
     const newEvent = {
@@ -61,6 +67,10 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
     if (end.diff(start, "minutes", true) > 120) {
       eventError = "Du får max boka 2 timmar åt gången.";
     }
+
+    if (startHour < 9 || endHour > 21) {
+      eventError = "Du får endast boka tider mellan 09:00-21:00";
+    } 
 
     if (eventError) {
       setError(eventError);
