@@ -1,95 +1,142 @@
 const express = require("express");
 const app = (module.exports = express());
-const jwt = require("jsonwebtoken");
+const MongoClient = require("mongodb").MongoClient;
 const authSettings = require("./auth");
+const jwt = require("jsonwebtoken");
+const dbName = "oakflowers";
+const url = `mongodb+srv://${authSettings.username}:${authSettings.password}@${
+  authSettings.cluster
+}`;
 const socket = require("../helpers/socket");
-const { connect, result, auth, send400Response } = require("./utils");
+const {
+  isAuthenticated,
+  send403Response,
+  send500Response
+} = require("./utils");
 const ObjectID = require("mongodb").ObjectID;
 
 app.post("/login", (req, res) => {
-  const handleResult = result(res, result => {
-    const { firstname, lastname, email, role } = result;
-    const token = jwt.sign(
-      { firstname, lastname, email, role },
-      authSettings.secret
-    );
-    return {
-      user: {
-        firstname,
-        lastname,
-        email,
-        token,
-        role
-      }
-    };
-  });
-  connect(
-    "Users",
-    db =>
-      db.findOne(
+  MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      send500Response(res, err);
+    } else {
+      const collection = client.db(dbName).collection("Users");
+      collection.findOne(
         {
           email: req.body.email,
           password: req.body.password
         },
-        handleResult
-      ),
-    res
-  );
+        (err, result) => {
+          if (err) {
+            send500Response(res);
+          } else {
+            if (!result) {
+              res.status(401).send({
+                message: "Fel användarnamn eller lösenord!"
+              });
+            } else {
+              const { firstname, lastname, email, role } = result;
+              const token = jwt.sign(
+                { firstname, lastname, email, role },
+                authSettings.secret
+              );
+              res.status(200).send({
+                user: {
+                  firstname,
+                  lastname,
+                  email,
+                  token,
+                  role
+                }
+              });
+            }
+            client.close();
+          }
+        }
+      );
+    }
+  });
 });
 
 app.get("/get/events", (req, res) => {
-  const handleResult = result(res, result => ({ events: result }));
-  connect(
-    "Events",
-    db => db.find().toArray(handleResult),
-    res
-  );
+  MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      send500Response(res, err);
+    } else {
+      const collection = client.db(dbName).collection("Events");
+      collection.find().toArray((err, result) => {
+        if (err) {
+          send500Response(res);
+        } else {
+          res.status(200).send({ events: result });
+        }
+        client.close();
+      });
+    }
+  });
 });
 
 app.post("/set/event", (req, res) => {
-  auth(req, res, user => {
-    const handleResult = result(res, result => {
-      newEventsLoaded();
-
-      return {
-        eventId: result.insertedId,
-        userEmail: user.email
-      };
-    });
-    connect(
-      "Events",
-      db =>
-        db.insertOne(
+  if (isAuthenticated(req)) {
+    MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+      if (err) {
+        send500Response(res, err);
+      } else {
+        const collection = client.db(dbName).collection("Events");
+        collection.insertOne(
           {
             user: user.email,
             title: req.body.event.title,
             start: req.body.event.start,
             end: req.body.event.end
           },
-          handleResult
-        ),
-      res
-    );
-  });
+          (err, result) => {
+            if (err) {
+              send500Response(res);
+            } else {
+              newEventsLoaded();
+              res.status(200).send({
+                eventId: result.insertedId,
+                userEmail: user.email
+              });
+            }
+            client.close();
+          }
+        );
+      }
+    });
+  } else {
+    send403Response(res);
+  }
 });
 
 app.delete("/remove/event", (req, res) => {
-  auth(req, res, user => {
-    const handleResult = result(res, newEventsLoaded);
-    connect(
-      "Events",
-      db => {
-        return db.deleteOne(
+  if (isAuthenticated(req)) {
+    MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+      if (err) {
+        send500Response(res, err);
+      } else {
+        const collection = client.db(dbName).collection("Events");
+        collection.deleteOne(
           {
             _id: ObjectID(req.body.event._id),
             user: user.email
           },
-          handleResult
+          (err, result) => {
+            if (err) {
+              send500Response(res);
+            } else {
+              newEventsLoaded();
+              res.status(200).send();
+            }
+            client.close();
+          }
         );
-      },
-      res
-    );
-  });
+      }
+    });
+  } else {
+    send403Response(res);
+  }
 });
 
 function newEventsLoaded() {
