@@ -68,9 +68,9 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
       eventError = "Du får max boka 2 timmar åt gången.";
     }
 
-    if (startHour < 9 || endHour > 21) {
+    if (startHour < 9 || (endHour === 21 && endMinute > 0) || endHour > 21) {
       eventError = "Du får endast boka tider mellan 09:00-21:00";
-    } 
+    }
 
     if (eventError) {
       setError(eventError);
