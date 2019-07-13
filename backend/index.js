@@ -4,11 +4,10 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 80;
 const http = require("http").createServer(app);
 const https = require("express-force-https");
 const api = require("./api");
-const socket = require("./helpers/socket");
+const server = require("./helpers/server");
 
 app.use(compression());
 app.use(cors({ credentials: true, origin: true }));
@@ -26,14 +25,4 @@ if (process.env.NODE_ENV === "serve") {
   });
 }
 
-const io = socket.connect(http);
-
-io.on("connection", function(socket) {
-  console.log("A user connected");
-
-  socket.on("disconnect", function() {
-    console.log("User disconnected");
-  });
-});
-
-http.listen(port, () => console.log(`Listening on port ${port}`));
+server.start(http, app);
