@@ -13,7 +13,7 @@ const Link = ({
   ...rest
 }) => {
   if (disabled) {
-    return <a className={styles.disabled}>{children}</a>;
+    return <span className={styles.disabled}>{children}</span>;
   }
 
   return (

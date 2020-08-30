@@ -31,7 +31,7 @@ const Calendar = ({ getEvents, events, user }) => {
     socket.on("newEvents", () => {
       getEvents();
     });
-  }, []);
+  }, [getEvents]);
 
   const onSelectEvent = (event) => {
     if (user && event.user === user.email) {
