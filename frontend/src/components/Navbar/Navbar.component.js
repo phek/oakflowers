@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import classNames from "classnames";
 import { login, logout } from "routes/_state/auth/Auth.actions";
 import { appRoutes } from "routes/_router/App.routes";
 import Link from "components/Link";
@@ -47,16 +48,16 @@ const Navbar = ({ user, login, logout, children }) => {
     <>
       <nav className={styles.navBar}>
         <div className={styles.mainNav}>
-          <Link className={styles.logo} to={appRoutes.home.path}>
+          <Link className={classNames(styles.menuItem, styles.logo)} to={appRoutes.home.path}>
             <img src={logo} alt="Logo" />
           </Link>
           <div className={styles.rightNav}>
-            <Link to={appRoutes.vindo.path}>
-              <span className={styles.menuItem}>Vindö</span>
+            <Link className={styles.menuItem}  to={appRoutes.vindo.path}>
+              Vindö
             </Link>
             {user ? (
               <Link as="button" className={styles.menuItem} onClick={logout}>
-                <span className={styles.menuItem}>Logga ut</span>
+                Logga ut
               </Link>
             ) : (
               <Link
@@ -64,7 +65,7 @@ const Navbar = ({ user, login, logout, children }) => {
                 className={styles.menuItem}
                 onClick={showLoginPopup}
               >
-                <span className={styles.menuItem}>Logga in</span>
+                Logga in
               </Link>
             )}
           </div>

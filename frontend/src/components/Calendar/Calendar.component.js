@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import "moment/locale/sv";
-import BigCalendar from "react-big-calendar";
+import {Calendar as BigCalendar, momentLocalizer} from "react-big-calendar";
 import socketIO from "socket.io-client";
 import { getEvents } from "routes/_state/event/Event.actions";
 import { getClosestInterval, getValidDate } from "./eventUtils";
@@ -17,7 +17,7 @@ moment.updateLocale("sv", {
   },
 });
 
-const localizer = BigCalendar.momentLocalizer(moment);
+const localizer = momentLocalizer(moment);
 
 const Calendar = ({ getEvents, events, user }) => {
   const [selectedDate, setSelectedDate] = useState();

@@ -10,13 +10,13 @@
   top: 0;
   left: 0;
   z-index: z-index(nav);
+}
 
-  & a {
-    margin-right: 24px;
+.menuItem {
+  margin-right: 24px;
 
-    &:last-child {
-      margin-right: 0;
-    }
+  &:last-child {
+    margin-right: 0;
   }
 }
 
