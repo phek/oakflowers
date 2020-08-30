@@ -13,8 +13,8 @@ import "./Calendar.module.scss";
 
 moment.updateLocale("sv", {
   week: {
-    dow: 1
-  }
+    dow: 1,
+  },
 });
 
 const localizer = BigCalendar.momentLocalizer(moment);
@@ -25,13 +25,15 @@ const Calendar = ({ getEvents, events, user }) => {
 
   useEffect(() => {
     const socket = socketIO(process.env.REACT_APP_SERVER_URL);
-    getEvents();
+    socket.on("connect", () => {
+      getEvents();
+    });
     socket.on("newEvents", () => {
       getEvents();
     });
   }, []);
 
-  const onSelectEvent = event => {
+  const onSelectEvent = (event) => {
     if (user && event.user === user.email) {
       setSelectedEvent(event);
     }
@@ -41,7 +43,7 @@ const Calendar = ({ getEvents, events, user }) => {
     setSelectedEvent(null);
   };
 
-  const onSelectDate = event => {
+  const onSelectDate = (event) => {
     if (event && user) {
       let startDate = event.start;
       let endDate = event.end;
@@ -74,7 +76,7 @@ const Calendar = ({ getEvents, events, user }) => {
               end,
               "HH:mm",
               culture
-            )}`
+            )}`,
         }}
         events={events}
         defaultDate={new Date()}
@@ -87,7 +89,7 @@ const Calendar = ({ getEvents, events, user }) => {
           day: "Dag",
           today: "Idag",
           previous: "Föregående",
-          next: "Nästa"
+          next: "Nästa",
         }}
         onSelectSlot={onSelectDate}
         onSelectEvent={onSelectEvent}
@@ -111,14 +113,14 @@ Calendar.propTypes = {
       title: PropTypes.string,
       start: PropTypes.any,
       end: PropTypes.any,
-      allDay: PropTypes.bool
+      allDay: PropTypes.bool,
     })
-  )
+  ),
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth.user,
-  events: state.events.events
+  events: state.events.events,
 });
 
 export default connect(

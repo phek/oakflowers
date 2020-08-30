@@ -14,17 +14,21 @@ const Vindo = ({ routes }) => {
       <Navbar>
         <Navbar.SubNav>
           <Link to={rootRoute + routes.tennis.path}>Tennis</Link>
-          <Link to={rootRoute + routes.bastu.path}>Bastu</Link>
-          <Link to={rootRoute + routes.stuga.path}>Stuga</Link>
+          <Link to={rootRoute + routes.bastu.path} disabled>
+            Bastu
+          </Link>
+          <Link to={rootRoute + routes.stuga.path} disabled>
+            Stuga
+          </Link>
         </Navbar.SubNav>
       </Navbar>
       <Content hasSubNav>
         <Route
           path={rootRoute}
           exact
-          render={props => <Redirect to={indexRoute} />}
+          render={(props) => <Redirect to={indexRoute} />}
         />
-        {Object.keys(routes).map(key => {
+        {Object.keys(routes).map((key) => {
           const route = routes[key];
           const path = rootRoute + route.path;
 
@@ -32,7 +36,7 @@ const Vindo = ({ routes }) => {
             <Route
               key={key}
               path={path}
-              render={props => (
+              render={(props) => (
                 <route.component {...props} routes={route.routes} />
               )}
             />

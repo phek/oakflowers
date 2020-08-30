@@ -23,12 +23,12 @@ const Navbar = ({ user, login, logout, children }) => {
     setLoginOpen(false);
   };
 
-  const loginUser = event => {
+  const loginUser = (event) => {
     event.preventDefault();
 
     if (email && password) {
       login({ email: email, password: password }, hideLoginPopup).then(
-        error => {
+        (error) => {
           if (error) {
             setError(error);
           } else {
@@ -40,8 +40,8 @@ const Navbar = ({ user, login, logout, children }) => {
     }
   };
 
-  const updateEmail = event => setEmail(event.target.value);
-  const updatePassword = event => setPassword(event.target.value);
+  const updateEmail = (event) => setEmail(event.target.value);
+  const updatePassword = (event) => setPassword(event.target.value);
 
   return (
     <>
@@ -53,9 +53,6 @@ const Navbar = ({ user, login, logout, children }) => {
           <div className={styles.rightNav}>
             <Link to={appRoutes.vindo.path}>
               <span className={styles.menuItem}>Vindö</span>
-            </Link>
-            <Link to={appRoutes.nerja.path} className={styles.menuItem}>
-              <span className={styles.menuItem}>Nerja</span>
             </Link>
             {user ? (
               <Link as="button" className={styles.menuItem} onClick={logout}>
@@ -107,8 +104,8 @@ const Navbar = ({ user, login, logout, children }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.auth.user
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
 });
 
 export default connect(

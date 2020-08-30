@@ -6,3 +6,12 @@
     cursor: pointer;
   }
 }
+
+.disabled {
+  &,
+  &:hover,
+  &:active {
+    cursor: not-allowed;
+    color: color(text-disabled);
+  }
+}
