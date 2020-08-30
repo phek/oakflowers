@@ -32,7 +32,11 @@ const SelectedEventPopup = ({ removeEvent, closeFunction, user, event }) => {
     if (user) {
       removeEvent(event, user.token).then(error => {
         if (error) {
-          setError(error);
+          if (error.message) {
+            setError(error.message);
+          } else {
+            setError("Okänt fel inträffade.");
+          }
         } else {
           closeFunction();
         }

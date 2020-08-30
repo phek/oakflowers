@@ -56,7 +56,10 @@ export function removeEvent(event, token) {
   return async dispatch => {
     try {
       await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/remove/event`, {
-        data: { event, token }
+        headers: {
+          Authorization: token
+        },
+        params: { eventId: event._id }
       });
 
       dispatch({

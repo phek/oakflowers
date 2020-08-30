@@ -3,7 +3,10 @@ const jwt = require("jsonwebtoken");
 
 function getUser(req, adminOnly) {
   let token =
-    req.body.token || req.query.token || req.headers["x-access-token"];
+    req.body.token ||
+    req.query.token ||
+    req.headers["x-access-token"] ||
+    req.headers["authorization"];
 
   if (token) {
     try {
@@ -27,19 +30,19 @@ function getUser(req, adminOnly) {
 
 function send403Response(res) {
   res.status(403).send({
-    message: "Authentisering misslyckades."
+    message: "Authentisering misslyckades.",
   });
 }
 
 function send500Response(res, error) {
   console.log(error);
   res.status(500).send({
-    message: "Ett server fel uppstod."
+    message: "Ett server fel uppstod.",
   });
 }
 
 module.exports = {
   getUser,
   send403Response,
-  send500Response
+  send500Response,
 };

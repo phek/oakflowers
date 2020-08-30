@@ -13,7 +13,7 @@ app.post("/login", (req, res) => {
   collection.findOne(
     {
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
     },
     (err, result) => {
       if (err) {
@@ -21,7 +21,7 @@ app.post("/login", (req, res) => {
       } else {
         if (!result) {
           res.status(401).send({
-            message: "Fel användarnamn eller lösenord!"
+            message: "Fel användarnamn eller lösenord!",
           });
         } else {
           const { firstname, lastname, email, role } = result;
@@ -35,8 +35,8 @@ app.post("/login", (req, res) => {
               lastname,
               email,
               token,
-              role
-            }
+              role,
+            },
           });
         }
       }
@@ -67,7 +67,7 @@ app.post("/set/event", (req, res) => {
         user: user.email,
         title: req.body.event.title,
         start: req.body.event.start,
-        end: req.body.event.end
+        end: req.body.event.end,
       },
       (err, result) => {
         if (err) {
@@ -76,7 +76,7 @@ app.post("/set/event", (req, res) => {
           newEventsLoaded();
           res.status(200).send({
             eventId: result.insertedId,
-            userEmail: user.email
+            userEmail: user.email,
           });
         }
       }
@@ -94,8 +94,8 @@ app.delete("/remove/event", (req, res) => {
     const collection = db.collection("Events");
     collection.deleteOne(
       {
-        _id: ObjectID(req.body.event._id),
-        user: user.email
+        _id: ObjectID(req.query.eventId),
+        user: user.email,
       },
       (err, result) => {
         if (err) {
