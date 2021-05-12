@@ -7,7 +7,7 @@ export const REMOVED_EVENT = "removed_event";
 export const EVENTS_ERROR = "events_error";
 
 export function getEvents() {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/get/events`
@@ -15,7 +15,7 @@ export function getEvents() {
 
       dispatch({
         type: RECIEVED_EVENTS,
-        events: convertEvents(res.data.events)
+        events: convertEvents(res.data.events),
       });
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -28,19 +28,19 @@ export function getEvents() {
 }
 
 export function setEvent(event, token) {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/set/event`,
         {
           event,
-          token
+          token,
         }
       );
 
       dispatch({
         type: ADDED_EVENT,
-        event: { _id: res.data.eventId, user: res.data.userEmail, ...event }
+        event: { _id: res.data.eventId, user: res.data.userEmail, ...event },
       });
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -53,18 +53,21 @@ export function setEvent(event, token) {
 }
 
 export function removeEvent(event, token) {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/remove/event`, {
-        headers: {
-          Authorization: token
-        },
-        params: { eventId: event._id }
-      });
+      await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/api/remove/event`,
+        {
+          headers: {
+            Authorization: token,
+          },
+          params: { eventId: event.id },
+        }
+      );
 
       dispatch({
         type: REMOVED_EVENT,
-        event: event
+        event: event,
       });
     } catch (error) {
       return error;

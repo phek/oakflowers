@@ -15,22 +15,22 @@ const SelectedEventPopup = ({ removeEvent, closeFunction, user, event }) => {
     event ? event.title : undefined
   );
   const [selectedStartDate, setSelectedStartDate] = useState(
-    event ? event.start : undefined
+    event ? event.from : undefined
   );
   const [selectedStartTime, setSelectedStartTime] = useState(
-    event ? moment(event.start).format("HH:mm") : undefined
+    event ? moment(event.from).format("HH:mm") : undefined
   );
   const [selectedEndDate, setSelectedEndDate] = useState(
-    event ? event.end : undefined
+    event ? event.to : undefined
   );
   const [selectedEndTime, setSelectedEndTime] = useState(
-    event ? moment(event.end).format("HH:mm") : undefined
+    event ? moment(event.to).format("HH:mm") : undefined
   );
   const [error, setError] = useState();
 
   const deleteEvent = () => {
     if (user) {
-      removeEvent(event, user.token).then(error => {
+      removeEvent(event, user.token).then((error) => {
         if (error) {
           if (error.message) {
             setError(error.message);
@@ -46,7 +46,8 @@ const SelectedEventPopup = ({ removeEvent, closeFunction, user, event }) => {
     }
   };
 
-  const editEvent = e => {
+  /*
+  const editEvent = (e) => {
     e.preventDefault();
 
     const title = selectedTitle || "No Title";
@@ -58,29 +59,28 @@ const SelectedEventPopup = ({ removeEvent, closeFunction, user, event }) => {
     const start = startDate
       .set({
         hour: startTime.get("hour"),
-        minute: startTime.get("minute")
+        minute: startTime.get("minute"),
       })
       .toDate();
 
     const end = endDate
       .set({
         hour: endTime.get("hour"),
-        minute: endTime.get("minute")
+        minute: endTime.get("minute"),
       })
       .toDate();
 
     const newEvent = {
       title: title,
-      start: start,
-      end: end
+      from: start,
+      to: end,
     };
 
-    // Edit event
-    console.log(newEvent);
     closeFunction();
   };
+  */
 
-  const onTitleChange = event => setSelectedTitle(event.target.value);
+  const onTitleChange = (event) => setSelectedTitle(event.target.value);
   const onDateChange = ({ startDate, endDate, startTime, endTime }) => {
     let forward = true;
     if (endDate || endTime) {
@@ -101,66 +101,61 @@ const SelectedEventPopup = ({ removeEvent, closeFunction, user, event }) => {
 
   return (
     <Popup closeFunction={closeFunction}>
-      <form onSubmit={editEvent}>
-        <label htmlFor="title">Event name</label>
-        <input
-          disabled
-          id="title"
-          placeholder="Titel"
-          value={selectedTitle}
-          onChange={onTitleChange}
-        />
-        <label htmlFor="start">Start date</label>
-        <DateInput
-          inputProps={{ disabled: true }}
-          id="start"
-          style={{ marginRight: 8 }}
-          value={selectedStartDate}
-          onDayChange={date => onDateChange({ startDate: date })}
-        />
-        <TimeInput
-          disabled
-          value={selectedStartTime}
-          onChange={time => onDateChange({ startTime: time })}
-        />
-        <label htmlFor="end">End date</label>
-        <DateInput
-          inputProps={{ disabled: true }}
-          id="end"
-          style={{ marginRight: 8 }}
-          value={selectedEndDate}
-          onDayChange={date => onDateChange({ endDate: date })}
-        />
-        <TimeInput
-          disabled
-          value={selectedEndTime}
-          onChange={time => onDateChange({ endTime: time })}
-        />
-        <div style={{ marginTop: 8 }}>
-          <Button type="button" color="negative" size="s" onClick={deleteEvent}>
-            Ta bort event
-          </Button>
-        </div>
-        {error && (
-          <Text style={{ marginTop: 8 }} color="negative">
-            {error}
-          </Text>
-        )}
-      </form>
+      <label htmlFor="title">Event name</label>
+      <input
+        disabled
+        id="title"
+        placeholder="Titel"
+        value={selectedTitle}
+        onChange={onTitleChange}
+      />
+      <label htmlFor="start">Start date</label>
+      <DateInput
+        inputProps={{ disabled: true }}
+        id="start"
+        style={{ marginRight: 8 }}
+        value={selectedStartDate}
+        onDayChange={(date) => onDateChange({ startDate: date })}
+      />
+      <TimeInput
+        disabled
+        value={selectedStartTime}
+        onChange={(time) => onDateChange({ startTime: time })}
+      />
+      <label htmlFor="end">End date</label>
+      <DateInput
+        inputProps={{ disabled: true }}
+        id="end"
+        style={{ marginRight: 8 }}
+        value={selectedEndDate}
+        onDayChange={(date) => onDateChange({ endDate: date })}
+      />
+      <TimeInput
+        disabled
+        value={selectedEndTime}
+        onChange={(time) => onDateChange({ endTime: time })}
+      />
+      <div style={{ marginTop: 8 }}>
+        <Button type="button" color="negative" size="s" onClick={deleteEvent}>
+          Ta bort event
+        </Button>
+      </div>
+      {error && (
+        <Text style={{ marginTop: 8 }} color="negative">
+          {error}
+        </Text>
+      )}
     </Popup>
   );
 };
 
 SelectedEventPopup.propTypes = {
   closeFunction: PropTypes.func,
-  event: PropTypes.object
+  event: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  user: state.auth.user
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
 });
 
-export default connect(
-  mapStateToProps,
-  { removeEvent }
-)(SelectedEventPopup);
+export default connect(mapStateToProps, { removeEvent })(SelectedEventPopup);

@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import "moment/locale/sv";
-import {Calendar as BigCalendar, momentLocalizer} from "react-big-calendar";
+import ReactCalendar from "react-awesome-calendar";
 import socketIO from "socket.io-client";
 import { getEvents } from "routes/_state/event/Event.actions";
-import { getClosestInterval, getValidDate } from "./eventUtils";
+import { getValidDate } from "./eventUtils";
+import { toSwedishTime } from "../../utils/eventUtils";
 import NewEventPopup from "./NewEventPopup";
 import SelectedEventPopup from "./SelectedEventPopup";
 import "./Calendar.module.scss";
@@ -17,9 +18,8 @@ moment.updateLocale("sv", {
   },
 });
 
-const localizer = momentLocalizer(moment);
-
-const Calendar = ({ getEvents, events, user }) => {
+function Calendar({ getEvents, events, user }) {
+  const calendarRef = useRef(null);
   const [selectedDate, setSelectedDate] = useState();
   const [selectedEvent, setSelectedEvent] = useState();
 
@@ -34,8 +34,12 @@ const Calendar = ({ getEvents, events, user }) => {
   }, [getEvents]);
 
   const onSelectEvent = (event) => {
-    if (user && event.user === user.email) {
-      setSelectedEvent(event);
+    const foundEvent = events.filter(
+      (currentEvent) => event === currentEvent.id
+    )[0];
+
+    if (user && foundEvent.user === user.email) {
+      setSelectedEvent(foundEvent);
     }
   };
 
@@ -43,18 +47,24 @@ const Calendar = ({ getEvents, events, user }) => {
     setSelectedEvent(null);
   };
 
-  const onSelectDate = (event) => {
-    if (event && user) {
-      let startDate = event.start;
-      let endDate = event.end;
+  const onSelectDate = (date) => {
+    if (user) {
+      const hour = Math.floor(date.hour);
+      const minutes = (date.hour % 1).toFixed(1) === "0.5" ? 30 : 0;
+
+      let startDate = new Date(
+        date.year,
+        date.month,
+        date.day,
+        hour,
+        minutes,
+        0
+      );
+
+      let endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // Add one hour
 
       let startTime = moment(startDate).format("HH:mm");
       let endTime = moment(endDate).format("HH:mm");
-      if (startTime === "00:00" && endTime === "00:00") {
-        const time = getClosestInterval();
-        startTime = time.startTime;
-        endTime = time.endTime;
-      }
 
       setSelectedDate(getValidDate(startDate, endDate, startTime, endTime));
     }
@@ -66,33 +76,11 @@ const Calendar = ({ getEvents, events, user }) => {
 
   return (
     <>
-      <BigCalendar
-        localizer={localizer}
-        formats={{
-          timeGutterFormat: (date, culture, localizer) =>
-            localizer.format(date, "HH:mm", culture),
-          selectRangeFormat: ({ start, end }, culture, localizer) =>
-            `${localizer.format(start, "HH:mm", culture)} - ${localizer.format(
-              end,
-              "HH:mm",
-              culture
-            )}`,
-        }}
-        events={events}
-        defaultDate={new Date()}
-        defaultView="month"
-        selectable
-        views={["month", "week", "day"]}
-        messages={{
-          month: "Månad",
-          week: "Vecka",
-          day: "Dag",
-          today: "Idag",
-          previous: "Föregående",
-          next: "Nästa",
-        }}
-        onSelectSlot={onSelectDate}
-        onSelectEvent={onSelectEvent}
+      <ReactCalendar
+        ref={calendarRef}
+        events={events.map((event) => toSwedishTime(event))}
+        onClickTimeLine={onSelectDate}
+        onClickEvent={onSelectEvent}
       />
       {selectedDate && (
         <NewEventPopup closeFunction={unSelectDate} date={selectedDate} />
@@ -105,15 +93,14 @@ const Calendar = ({ getEvents, events, user }) => {
       )}
     </>
   );
-};
+}
 
 Calendar.propTypes = {
   events: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,
+      from: PropTypes.any,
       start: PropTypes.any,
-      end: PropTypes.any,
-      allDay: PropTypes.bool,
     })
   ),
 };
@@ -123,7 +110,4 @@ const mapStateToProps = (state) => ({
   events: state.events.events,
 });
 
-export default connect(
-  mapStateToProps,
-  { getEvents }
-)(Calendar);
+export default connect(mapStateToProps, { getEvents })(Calendar);

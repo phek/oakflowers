@@ -46,19 +46,6 @@ export const getValidDate = (
     startDate: newStartDate.toDate(),
     endDate: newEndDate.toDate(),
     startTime: newStartTime.format("HH:mm"),
-    endTime: newEndTime.format("HH:mm")
-  };
-};
-
-export const getClosestInterval = () => {
-  const currentTime = moment(new Date());
-  const remainder = 30 - (currentTime.minute() % 30);
-  let roundedTime = currentTime.add(remainder, "minutes");
-  if (roundedTime.format("HH:mm") === "00:00") {
-    roundedTime = roundedTime.subtract(1, "hours");
-  }
-  return {
-    startTime: roundedTime.format("HH:mm"),
-    endTime: roundedTime.add(1, "hours").format("HH:mm")
+    endTime: newEndTime.format("HH:mm"),
   };
 };
