@@ -18,21 +18,17 @@ const Home = () => {
               <div className={styles.box}>
                 <Wrapper>
                   <Heading level={1} size="l">
-                    Hemsida under konstruktion
+                    Välkommen till Oakflowers!
                   </Heading>
                   <Text color="text-secondary">
-                    Sidan är under uppbyggnad och därmed kan du mötas av bland
-                    annat tomma sidor och oklar funktionalitet.
-                  </Text>
-                  <Text color="text-secondary">
-                    Det kan även hända att hemsidan ligger nere eller har olika
+                    Det kan hända att hemsidan ligger nere eller har olika
                     problem under en kortare stund på grund av uppdatering av
                     servern. Vid fel under en längre period, vänligen kontakta
                     oss.
                   </Text>
                   <Text>
                     Vi är även tacksamma för all feedback så hör gärna av er om
-                    förbättringar eller ifall något inte fungerar optimalt!
+                    förbättringar eller ifall något inte fungerar!
                   </Text>
                 </Wrapper>
               </div>
