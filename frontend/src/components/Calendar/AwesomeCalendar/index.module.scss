@@ -1,0 +1,70 @@
+.calendarWrapper {
+  width: 100%;
+}
+
+.calendarHeader {
+  .thickText {
+    font-weight: 700;
+  }
+  .thinText {
+    font-weight: 200;
+  }
+}
+
+.calendarHeaderButtons {
+  display: flex;
+  justify-content: space-between;
+  overflow: auto;
+  margin: 8px 0;
+}
+.calendarHeaderButtons button:nth-of-type(1) {
+  float: left;
+}
+.calendarHeaderButtons button:nth-of-type(2) {
+  float: right;
+}
+
+.modeWrapper {
+  text-align: center;
+}
+
+.modeButton {
+  padding: 10px 20px;
+  color: #202029;
+  transition-duration: 0.3s;
+}
+
+.modeButton:hover {
+  color: #ff3e52;
+}
+
+.modeButtonActive {
+  color: #ff3e52;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+}
+
+.arrowLeft {
+  margin-right: 2px;
+  width: 14px;
+  height: 14px;
+  transform: rotate(-90deg);
+
+  button:hover & {
+    fill: #ff3e52;
+  }
+}
+
+.arrowRight {
+  margin-left: 2px;
+  width: 14px;
+  height: 14px;
+  transform: rotate(90deg);
+
+  button:hover & {
+    fill: #ff3e52;
+  }
+}

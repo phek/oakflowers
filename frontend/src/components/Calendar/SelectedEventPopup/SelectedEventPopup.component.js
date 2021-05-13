@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import { removeEvent } from "routes/_state/event/Event.actions";
-import { getValidDate } from "../eventUtils";
+import { getValidDate } from "../calendarUtils";
 import Popup from "components/Popup";
 import DateInput from "components/DateInput";
 import TimeInput from "components/TimeInput";

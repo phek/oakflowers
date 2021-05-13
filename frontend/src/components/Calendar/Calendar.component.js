@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import "moment/locale/sv";
-import ReactCalendar from "react-awesome-calendar";
+import AwesomeCalendar from "./AwesomeCalendar";
 import socketIO from "socket.io-client";
 import { getEvents } from "routes/_state/event/Event.actions";
-import { getValidDate } from "./eventUtils";
-import { toSwedishTime } from "../../utils/eventUtils";
+import { getValidDate } from "./calendarUtils";
 import NewEventPopup from "./NewEventPopup";
 import SelectedEventPopup from "./SelectedEventPopup";
 import "./Calendar.module.scss";
@@ -76,9 +75,9 @@ function Calendar({ getEvents, events, user }) {
 
   return (
     <>
-      <ReactCalendar
+      <AwesomeCalendar
         ref={calendarRef}
-        events={events.map((event) => toSwedishTime(event))}
+        events={events}
         onClickTimeLine={onSelectDate}
         onClickEvent={onSelectEvent}
       />

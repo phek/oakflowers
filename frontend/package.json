@@ -12,7 +12,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.1",
-    "react-awesome-calendar": "^1.0.14",
     "react-day-picker": "^7.3.0",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",

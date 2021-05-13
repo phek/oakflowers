@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import { setEvent } from "routes/_state/event/Event.actions";
-import { getValidDate } from "../eventUtils";
+import { getValidDate } from "../calendarUtils";
 import Popup from "components/Popup";
 import DateInput from "components/DateInput";
 import TimeInput from "components/TimeInput";
@@ -28,7 +28,7 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
   );
   const [error, setError] = useState();
 
-  const addEvent = e => {
+  const addEvent = (e) => {
     e.preventDefault();
 
     let eventError;
@@ -46,18 +46,18 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
 
     const start = startDate.set({
       hour: startHour,
-      minute: startMinute
+      minute: startMinute,
     });
 
     const end = endDate.set({
       hour: endHour,
-      minute: endMinute
+      minute: endMinute,
     });
 
     const newEvent = {
       title: title,
       start: start.toDate(),
-      end: end.toDate()
+      end: end.toDate(),
     };
 
     if (!user) {
@@ -75,7 +75,7 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
     if (eventError) {
       setError(eventError);
     } else {
-      setEvent(newEvent, user.token).then(error => {
+      setEvent(newEvent, user.token).then((error) => {
         if (error) {
           setError(error);
         } else {
@@ -85,7 +85,7 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
     }
   };
 
-  const onTitleChange = event => setSelectedTitle(event.target.value);
+  const onTitleChange = (event) => setSelectedTitle(event.target.value);
   const onDateChange = ({ startDate, endDate, startTime, endTime }) => {
     let forward = true;
     if (endDate || endTime) {
@@ -119,22 +119,22 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
           id="start"
           style={{ marginRight: 8 }}
           value={selectedStartDate}
-          onDayChange={date => onDateChange({ startDate: date })}
+          onDayChange={(date) => onDateChange({ startDate: date })}
         />
         <TimeInput
           value={selectedStartTime}
-          onChange={time => onDateChange({ startTime: time })}
+          onChange={(time) => onDateChange({ startTime: time })}
         />
         <label htmlFor="end">End date</label>
         <DateInput
           id="end"
           style={{ marginRight: 8 }}
           value={selectedEndDate}
-          onDayChange={date => onDateChange({ endDate: date })}
+          onDayChange={(date) => onDateChange({ endDate: date })}
         />
         <TimeInput
           value={selectedEndTime}
-          onChange={time => onDateChange({ endTime: time })}
+          onChange={(time) => onDateChange({ endTime: time })}
         />
         <div style={{ marginTop: 8 }}>
           <Button color="black-light" size="s">
@@ -153,14 +153,11 @@ const NewEventPopup = ({ setEvent, closeFunction, user, date }) => {
 
 NewEventPopup.propTypes = {
   closeFunction: PropTypes.func,
-  date: PropTypes.object
+  date: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  user: state.auth.user
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
 });
 
-export default connect(
-  mapStateToProps,
-  { setEvent }
-)(NewEventPopup);
+export default connect(mapStateToProps, { setEvent })(NewEventPopup);
